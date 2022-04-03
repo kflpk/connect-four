@@ -2,7 +2,7 @@ CC=clang++
 STD = -std=c++20
 WARNINGS = -Wall -Wextra -pedantic -Wshadow -Wno-pragma-once-outside-header -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual -pedantic
 CFLAGS= $(STD) $(WARNINGS)
-OBJS= main.o board.o game.o menu.o
+OBJS= main.o board.o game.o menu.o extras.o
 LINKS = -lncurses
 
 default: objects
@@ -21,6 +21,9 @@ menu.o: src/menu.cpp obj src/menu.h
 
 game.o: src/game.cpp obj src/game.h
 	$(CC) $(CFLAGS) -c src/game.cpp -o obj/game.o
+
+extras.o: src/extras.cpp obj src/extras.h
+	$(CC) $(CFLAGS) -c src/extras.cpp -o obj/extras.o
 
 obj:
 	mkdir -p obj

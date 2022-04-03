@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include "menu.h"
 #include "color.h"
+#include "extras.h"
 
 void Menu::draw_logo() {
     // TODO: Refactor the hell out of it, because it's ugly
@@ -12,16 +13,20 @@ void Menu::draw_logo() {
     std::string buffer{};
     std::ifstream logo_file;
 
+    wattron(title, COLOR_PAIR(PAIR_DEFAULT));
+    wfill(title, ' ');
+    wattroff(title, COLOR_PAIR(PAIR_DEFAULT));
+
     logo_file.open("assets/logo1.txt");
 
     if(logo_file.is_open()) { //print "Connect" on screen
         while(!logo_file.eof()) {
             std::getline(logo_file, buffer);
-            move(logo_offset.y + row, logo_offset.x + col);
+            wmove(title, logo_offset.y + row, logo_offset.x + col);
 
-            attron(COLOR_PAIR(PAIR_BLUE));
-            printw("%s", buffer.c_str());
-            attroff(COLOR_PAIR(PAIR_BLUE));
+            wattron(title, COLOR_PAIR(PAIR_BLUE));
+            wprintw(title ,"%s", buffer.c_str());
+            wattroff(title, COLOR_PAIR(PAIR_BLUE));
 
             row++;
         } 
@@ -37,14 +42,27 @@ void Menu::draw_logo() {
         while(!logo_file.eof()) {
             std::getline(logo_file, buffer);
 
-            move(logo_offset.y + row, logo_offset.x + col);
-            attron(COLOR_PAIR(PAIR_ORANGE));
-            printw("%s", buffer.c_str());
-            attroff(COLOR_PAIR(PAIR_ORANGE));
+            wmove(title, logo_offset.y + row, logo_offset.x + col);
+            wattron(title, COLOR_PAIR(PAIR_ORANGE));
+            wprintw(title, "%s", buffer.c_str());
+            wattroff(title, COLOR_PAIR(PAIR_ORANGE));
 
             row++;
         } 
     }
+    wattron(title, COLOR_PAIR(PAIR_DEFAULT));
+    box(title, 0, 0);
+    wattroff(title, COLOR_PAIR(PAIR_DEFAULT));
+    wrefresh(title);
+}
+
+void Menu::draw_content() {
+    wattron(content, COLOR_PAIR(PAIR_DEFAULT));
+    //box(content, ACS_HLINE , 0);
+    wfill(content, ' ');
+    wborder(content, 0 ,0 ,0 , 0, ACS_LTEE, ACS_RTEE, 0, 0);
+    wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
+    wrefresh(content);
 }
 
 bool Menu::is_frame(uint8_t row, uint8_t col) {
@@ -81,7 +99,9 @@ void Menu::set_parameters() {
     
 
     title = newwin(logo_height + 4, width, 0, 0); // creates new window for title 
-    content = newwin(height - (logo_height + 4), width, logo_height, 0); //creates new window for main content of the menu screen
+    content = newwin(height - (logo_height + 3), width, logo_height + 3, 0); //creates new window for main content of the menu screen
+    refresh();
+    //title = stdscr;
 }
 
 Menu::Menu() {
@@ -97,10 +117,10 @@ Menu::Menu() {
 
 void Menu::Draw() {
     // TODO: Split the menu into 2 windows; title and content
-
-    // draw_frame();
-    draw_logo();
+    draw_frame();
     refresh();
+    draw_logo();
+    draw_content();
 }
 
 void Menu::Update() {

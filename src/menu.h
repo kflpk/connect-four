@@ -31,6 +31,7 @@ class Menu {
         // functions for drawing
         void parse_logo(std::string& buffer);
         bool is_frame(uint8_t row, uint8_t col);
+        void fill_screen();
         void draw_logo();
         void draw_frame();
         void draw_content();
