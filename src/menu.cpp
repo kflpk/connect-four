@@ -64,7 +64,7 @@ void Menu::draw_content() {
     wrefresh(content);
 }
 
-bool Menu::is_frame(uint8_t row, uint8_t col) {
+bool Menu::is_frame(uint16_t row, uint16_t col) {
     if(row == 0 || row == height - 1 || 
        col == 0 || col == 1 || col == width -  2 || col == width  - 1 )
         return true;
@@ -73,8 +73,8 @@ bool Menu::is_frame(uint8_t row, uint8_t col) {
 }
 void Menu::draw_frame() {
 
-    for(uint8_t row = 0; row < height; row++) { // draw game frame in one color light gray, and background in dark grey
-        for(uint8_t col = 0; col < width; col++) {
+    for(uint16_t row = 0; row < height; row++) { // draw game frame in one color light gray, and background in dark grey
+        for(uint16_t col = 0; col < width; col++) {
             if(is_frame(row, col)) {
                 attron(COLOR_PAIR(PAIR_FRAME));
                 printw(" ");
@@ -95,9 +95,9 @@ void Menu::set_parameters() {
     logo_width = 64;
     logo_height = 5;
     logo_offset.x = (width - logo_width)/2;
-    
 
-    title = newwin(logo_height + 4, width, 0, 0); // creates new window for title 
+
+    title = newwin(logo_height + 4, width, 0, 0); // creates new window for title
     content = newwin(height - (logo_height + 3), width, logo_height + 3, 0); //creates new window for main content of the menu screen
     refresh();
 }
@@ -123,6 +123,5 @@ void Menu::Draw() {
 
 void Menu::Update() {
 
-} 
-
+}
 
