@@ -1,5 +1,6 @@
 #include <inttypes.h>
 #include <array>
+#include <vector>
 #include <memory>
 
 class Board {
@@ -7,14 +8,21 @@ class Board {
         // uints so that the value can not be negative
         uint16_t rows;
         uint16_t columns;
-        std::shared_ptr<uint8_t[]> content;
+        std::vector<uint8_t> content;
 
     public:
         // Constructor
-        Board(uint8_t rows, uint8_t columns) {
-            this->rows = rows;
-            this->columns = columns;
-            this->content = std::make_shared<uint8_t[]>(rows * columns);
+        Board(uint8_t board_rows, uint8_t board_columns)  {
+            rows = board_rows;
+            columns = board_columns;
+            content.resize(rows * columns);
+            for(int i = 0; i < rows * columns; i++)
+                content[i] = 0;
+        }
+        Board() {
+            this->rows = 5;
+            this->columns = 7;
+            this->content.resize(rows * columns);
             for(int i = 0; i < rows * columns; i++)
                 this->content[i] = 0;
         }

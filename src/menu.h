@@ -1,0 +1,44 @@
+#pragma once
+
+#include <string>
+#include <map>
+#include <iostream>
+#include <iomanip>
+#include <inttypes.h>
+
+#if defined(__linux__)
+#include <sys/ioctl.h>
+#elif defined(_WIN32)
+#include <Widnows.h>
+#define WIN32_LEAN_AND_MEAN
+#define VC_EXTRALEAN 
+#endif
+
+enum FocusedButton {
+    play,
+    options,
+    quit
+};
+
+class Menu {
+    private:
+        std::map<FocusedButton, std::string> button_labels;
+        FocusedButton current_button;
+        std::string logo{};
+        int width, height;
+
+        // functions for drawing
+        void parse_logo(std::string& buffer);
+        bool frame_condition(uint8_t row, uint8_t col);
+        void draw_frame();
+        void draw_buttons();
+        void set_parameters(); 
+        //   ^ sets parameters for drawing based i.e. line width,
+        //     element spacing based on window size
+
+    public:
+        Menu();
+        void Draw();
+        void Update();
+        void Printsize();
+};

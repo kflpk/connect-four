@@ -1,5 +1,7 @@
 #pragma once
 #include "board.h"
+#include "inttypes.h"
+#include "menu.h"
 
 enum GameState {
     active,
@@ -16,5 +18,12 @@ class Game {
     private:
         Board board;
         // game state
-
+        GameState state;
+        Menu menu;
+        uint16_t focused_column;
+    public:
+        Game() {
+            board = Board(5, 7);
+            state = active; 
+        }
 };
