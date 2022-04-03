@@ -26,4 +26,5 @@ class Game {
             board = Board(5, 7);
             state = active; 
         }
+        void Loop();
 };

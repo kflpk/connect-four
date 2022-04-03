@@ -26,10 +26,15 @@ class Menu {
         FocusedButton current_button;
         std::string logo{};
         int width, height;
+        struct {
+            uint8_t x;
+            uint8_t y;
+        } logo_offset;
 
         // functions for drawing
         void parse_logo(std::string& buffer);
-        bool frame_condition(uint8_t row, uint8_t col);
+        bool is_frame(uint8_t row, uint8_t col);
+        void draw_logo();
         void draw_frame();
         void draw_buttons();
         void set_parameters(); 
