@@ -13,13 +13,13 @@ objects: $(OBJS)
 main.o: src/main.cpp obj
 	$(CC) $(CFLAGS) -c src/main.cpp -o obj/main.o
 
-board.o: src/board.cpp obj
+board.o: src/board.cpp obj src/board.h
 	$(CC) $(CFLAGS) -c src/board.cpp -o obj/board.o
 
-menu.o: src/menu.cpp obj
+menu.o: src/menu.cpp obj src/menu.h
 	$(CC) $(CFLAGS) -c src/menu.cpp -o obj/menu.o
 
-game.o: src/game.cpp obj
+game.o: src/game.cpp obj src/game.h
 	$(CC) $(CFLAGS) -c src/game.cpp -o obj/game.o
 
 obj:
