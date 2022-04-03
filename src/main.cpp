@@ -36,5 +36,8 @@ int main() {
     
     getch();
 
+    //noraw();
+    //echo();
+    //reset_shell_mode();
     endwin();
 }

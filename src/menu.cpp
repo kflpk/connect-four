@@ -58,7 +58,6 @@ void Menu::draw_logo() {
 
 void Menu::draw_content() {
     wattron(content, COLOR_PAIR(PAIR_DEFAULT));
-    //box(content, ACS_HLINE , 0);
     wfill(content, ' ');
     wborder(content, 0 ,0 ,0 , 0, ACS_LTEE, ACS_RTEE, 0, 0);
     wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
@@ -101,7 +100,6 @@ void Menu::set_parameters() {
     title = newwin(logo_height + 4, width, 0, 0); // creates new window for title 
     content = newwin(height - (logo_height + 3), width, logo_height + 3, 0); //creates new window for main content of the menu screen
     refresh();
-    //title = stdscr;
 }
 
 Menu::Menu() {
