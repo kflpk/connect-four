@@ -1,12 +1,13 @@
-#include <inttypes.h>
+#include <cinttypes>
 #include <array>
 #include <vector>
 #include <memory>
 
+
 class Board {
     private:
         // uints so that the value can not be negative
-        uint16_t rows;
+        std::uint16_t rows;
         uint16_t columns;
         std::vector<uint8_t> content;
 

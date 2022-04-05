@@ -4,7 +4,7 @@
 #include <map>
 #include <iostream>
 #include <iomanip>
-#include <inttypes.h>
+#include <cinttypes>
 #include <ncurses.h>
 
 enum FocusedButton {

@@ -1,6 +1,6 @@
 #pragma once
 #include "board.h"
-#include "inttypes.h"
+#include <cinttypes>
 #include "menu.h"
 
 enum GameState {
