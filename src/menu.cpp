@@ -5,6 +5,8 @@
 #include "color.h"
 #include "extras.h"
 
+// TODO: Make a key-hadling method for Menu
+
 void Menu::draw_logo() {
     // TODO: Refactor the hell out of it, because it's ugly
     // TODO: Make the code logo-size-independent
@@ -57,10 +59,22 @@ void Menu::draw_logo() {
 }
 
 void Menu::draw_content() {
+    uint16_t top_offset = 4;
+    uint16_t left_offset = (width - 12)/2;
+
     wattron(content, COLOR_PAIR(PAIR_DEFAULT));
     wfill(content, ' ');
     wborder(content, 0 ,0 ,0 , 0, ACS_LTEE, ACS_RTEE, 0, 0);
     wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
+
+    wattron(content, COLOR_PAIR(PAIR_DEFAULT));
+    for(int button = play; button != _last; button++) {
+        wmove(content, top_offset + 2 * button, left_offset);
+        wprintw(content, "[%c] %s", ((FocusedButton)button == current_button) ? 'x' : ' ',
+        button_labels[(FocusedButton)button].c_str());
+    }
+    wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
+
     wrefresh(content);
 }
 
@@ -71,6 +85,8 @@ bool Menu::is_frame(uint16_t row, uint16_t col) {
     else
         return false;
 }
+
+// port to game session, no use in Menu
 void Menu::draw_frame() {
 
     for(uint16_t row = 0; row < height; row++) { // draw game frame in one color light gray, and background in dark grey
@@ -104,7 +120,7 @@ void Menu::set_parameters() {
 
 Menu::Menu() {
     button_labels[play] = "Play";
-    button_labels[options] = "Option";
+    button_labels[options] = "Options";
     button_labels[load_game] = "Load game";
     button_labels[quit] = "Quit game";
 
@@ -115,7 +131,6 @@ Menu::Menu() {
 
 void Menu::Draw() {
     // TODO: Split the menu into 2 windows; title and content
-    draw_frame();
     refresh();
     draw_logo();
     draw_content();
@@ -125,3 +140,39 @@ void Menu::Update() {
 
 }
 
+void Menu::next_option() {
+    switch(current_button) {
+        case play:
+            current_button = load_game;
+        break;
+        case load_game:
+            current_button = options;
+        break;
+        case options:
+            current_button = quit;
+        break;
+
+        case quit:
+        case _last:
+        default:
+        break;
+    }
+}
+
+void Menu::prev_option() {
+    switch(current_button) {
+        case quit:
+            current_button = options;
+        break;
+        case options:
+            current_button = load_game;
+        break;
+        case load_game:
+            current_button = play;
+        break;
+        case play:
+        case _last:
+        default:
+        break;
+    }
+}

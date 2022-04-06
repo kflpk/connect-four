@@ -20,24 +20,35 @@ void init_theme() {
     //init_pair(PAIR_PLAYER1, COLOR_ORANGE)
 }
 
+void cleanup() {
+    noraw();
+    echo();
+    reset_shell_mode();
+    endwin();
+}
+
 int main() {
 
+    std::atexit(cleanup);
+    char c{};
     initscr();
-
     
     start_color();
-    
     init_theme();
     noecho();
 
     Menu menu;
-    menu.Draw();
-    
-    
-    getch();
+    while (c != '\f') {
+        menu.Draw();
+        c = getch();
 
-    //noraw();
-    //echo();
-    //reset_shell_mode();
-    endwin();
+        if(c == 'j')
+            menu.next_option();
+        else if(c == 'k')
+            menu.prev_option();
+        else if(c == '\e')
+            exit(0);
+    }
+
+    cleanup();
 }

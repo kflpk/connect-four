@@ -7,11 +7,12 @@
 #include <cinttypes>
 #include <ncurses.h>
 
-enum FocusedButton {
+enum FocusedButton : uint8_t {
     play,
     load_game,
     options,
-    quit
+    quit,
+    _last
 };
 
 class Menu {
@@ -43,4 +44,7 @@ class Menu {
         Menu();
         void Draw();
         void Update();
+
+        void next_option();
+        void prev_option();
 };
