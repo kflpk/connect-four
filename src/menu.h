@@ -44,7 +44,9 @@ class Menu {
         Menu();
         void Draw();
         void Update();
-
+        void Start();
+        void Loop();
+        void key_handler();
         void next_option();
         void prev_option();
 };

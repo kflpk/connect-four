@@ -86,24 +86,6 @@ bool Menu::is_frame(uint16_t row, uint16_t col) {
         return false;
 }
 
-// port to game session, no use in Menu
-void Menu::draw_frame() {
-
-    for(uint16_t row = 0; row < height; row++) { // draw game frame in one color light gray, and background in dark grey
-        for(uint16_t col = 0; col < width; col++) {
-            if(is_frame(row, col)) {
-                attron(COLOR_PAIR(PAIR_FRAME));
-                printw(" ");
-                attroff(COLOR_PAIR(PAIR_FRAME));
-            } else {
-                attron(COLOR_PAIR(PAIR_DEFAULT));
-                printw(" ");
-                attroff(COLOR_PAIR(PAIR_DEFAULT));
-            }
-        }
-        std::cout << std::endl;
-    }
-}
 //void Menu::draw_buttons();
 void Menu::set_parameters() {
     getmaxyx(stdscr, height, width);
@@ -129,15 +111,12 @@ Menu::Menu() {
     set_parameters();
 }
 
-void Menu::Draw() {
-    // TODO: Split the menu into 2 windows; title and content
+void Menu::Start() {
     refresh();
     draw_logo();
     draw_content();
-}
 
-void Menu::Update() {
-
+    Loop();
 }
 
 void Menu::next_option() {
@@ -174,5 +153,41 @@ void Menu::prev_option() {
         case _last:
         default:
         break;
+    }
+}
+void Menu::key_handler() {
+    int key;
+    keypad(content, true);
+    key = wgetch(content);
+    
+    switch(key) {
+        case KEY_LEFT:
+        case KEY_UP:
+        case 'k':
+            prev_option();
+        break;
+
+        case KEY_RIGHT:
+        case KEY_DOWN:
+        case 'j':
+            next_option();
+        break;
+
+        case KEY_ENTER:
+        case ' ':
+            exit(1);
+        break;
+
+        case '\e':  //ESC key
+            exit(0);
+        break;
+        
+    }
+}
+
+void Menu::Loop() {
+    while(true) {
+        key_handler();
+        draw_content();
     }
 }
