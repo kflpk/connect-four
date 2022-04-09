@@ -70,21 +70,21 @@ void Menu::draw_content() {
     wattron(content, COLOR_PAIR(PAIR_DEFAULT));
     for(int button = play; button != _last; button++) {
         wmove(content, top_offset + 2 * button, left_offset);
-        wprintw(content, "[%c] %s", ((FocusedButton)button == current_button) ? 'x' : ' ',
-        button_labels[(FocusedButton)button].c_str());
+        wprintw(content, "[%c] %s", ((Buttons)button == current_button) ? 'x' : ' ',
+        button_labels[(Buttons)button].c_str());
     }
     wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
 
     wrefresh(content);
 }
 
-bool Menu::is_frame(uint16_t row, uint16_t col) {
-    if(row == 0 || row == height - 1 || 
-       col == 0 || col == 1 || col == width -  2 || col == width  - 1 )
-        return true;
-    else
-        return false;
-}
+// bool Menu::is_frame(uint16_t row, uint16_t col) {
+//     if(row == 0 || row == height - 1 || 
+//        col == 0 || col == 1 || col == width -  2 || col == width  - 1 )
+//         return true;
+//     else
+//         return false;
+// }
 
 //void Menu::draw_buttons();
 void Menu::set_parameters() {
@@ -120,41 +120,19 @@ void Menu::Start() {
 }
 
 void Menu::next_option() {
-    switch(current_button) {
-        case play:
-            current_button = load_game;
-        break;
-        case load_game:
-            current_button = options;
-        break;
-        case options:
-            current_button = quit;
-        break;
-
-        case quit:
-        case _last:
-        default:
-        break;
-    }
+    uint8_t button = (uint8_t)current_button;
+    if (current_button + 1 != (uint8_t)_last)
+        button++;
+    current_button = (Buttons)button;
 }
 
 void Menu::prev_option() {
-    switch(current_button) {
-        case quit:
-            current_button = options;
-        break;
-        case options:
-            current_button = load_game;
-        break;
-        case load_game:
-            current_button = play;
-        break;
-        case play:
-        case _last:
-        default:
-        break;
-    }
+    uint8_t button = (uint8_t)current_button;
+    if (current_button != (uint8_t)play)
+        button--;
+    current_button = (Buttons)button;
 }
+
 void Menu::key_handler() {
     int key;
     keypad(content, true);
@@ -165,23 +143,38 @@ void Menu::key_handler() {
         case KEY_UP:
         case 'k':
             prev_option();
-        break;
+            break;
 
         case KEY_RIGHT:
         case KEY_DOWN:
         case 'j':
             next_option();
-        break;
+            break;
 
-        case KEY_ENTER:
-        case ' ':
-            exit(1);
-        break;
+        case '\n': //enter key (for some reason KEY_ENTER didn't work)
+        case ' ': //spacebar
+            switch(current_button) {
+                case play:
+                    //play
+                    break;
+
+                case load_game:
+                    //load game
+                    break;
+
+                case options:
+                    //options
+                    break;
+
+                case quit:
+                    exit(0);
+                    break;
+            }
+            break;
 
         case '\e':  //ESC key
             exit(0);
-        break;
-        
+            break;
     }
 }
 

@@ -7,7 +7,7 @@
 #include <cinttypes>
 #include <ncurses.h>
 
-enum FocusedButton : uint8_t {
+enum Buttons : uint8_t {
     play,
     load_game,
     options,
@@ -15,10 +15,17 @@ enum FocusedButton : uint8_t {
     _last
 };
 
+enum Options : uint8_t {
+    option_width,
+    option_height,
+    option_color1,
+    option_color2,
+};
+
 class Menu {
     private:
-        std::map<FocusedButton, std::string> button_labels;
-        FocusedButton current_button;
+        std::map<Buttons, std::string> button_labels;
+        Buttons current_button;
         std::string logo{};
         int width, height;
         struct {
@@ -30,8 +37,7 @@ class Menu {
         WINDOW* content;
 
         // functions for drawing
-        void parse_logo(std::string& buffer);
-        bool is_frame(uint16_t row, uint16_t col);
+        //bool is_frame(uint16_t row, uint16_t col);
         void fill_screen();
         void draw_logo();
         void draw_frame();
