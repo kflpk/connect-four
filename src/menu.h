@@ -22,17 +22,26 @@ enum Options : uint8_t {
     option_color2,
 };
 
+struct GameParameters {
+    uint16_t witdh;
+    uint16_t height;
+    
+    uint8_t player1_color;
+    uint8_t player2_color;
+};
+
 class Menu {
     private:
         std::map<Buttons, std::string> button_labels;
         Buttons current_button;
-        std::string logo{};
+
         int width, height;
         struct {
             uint16_t x;
             uint16_t y;
         } logo_offset;
         int logo_width, logo_height;
+
         WINDOW* title;
         WINDOW* content;
 

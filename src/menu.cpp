@@ -86,7 +86,6 @@ void Menu::draw_content() {
 //         return false;
 // }
 
-//void Menu::draw_buttons();
 void Menu::set_parameters() {
     getmaxyx(stdscr, height, width);
     logo_offset.y = 2;
