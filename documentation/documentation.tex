@@ -1,0 +1,77 @@
+\documentclass{book} 
+% \usepackage{polski}
+\usepackage[utf8]{inputenc}
+
+% \usepackage[QX]{fontenc}
+% \usepackage{lmodern}
+
+
+\title{Connect Four}
+\author{Kacper Filipek}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Opis projektu}
+
+Projekt jest realizacją gry w "Czwórki" (ang. "Connect Four") w C++, z interfejsem TUI (t.j. interfejs używający znaków specjalnych i kolorów do rysowania interfejsu użytkownika w konsoli).
+
+
+\section{Project description}
+
+The project is a realisation of the game "Connect Four" made in C++ with TUI interface (an interface using special characters for drawing UI in the terminal)
+
+\section{Instrukcja użytkownika}
+
+W tym punkcie należy umieścić instrukcję użytkowania programu. 
+Może być to na przykład opis poszczególnych menu w programie. 
+W przypadku gry należy opisać zasady gry. 
+Opcjonalnie można wstawić zrzuty ekranu. 
+Jeśli uruchomienie programu wymaga wykonania jakiś 
+niestandardowych lub dodatkowych czynności 
+(na przykład uruchomienie serwera baz danych itp.) 
+to należy zamieścić tę informację.
+
+\section{Kompilacja}
+
+Program został napisany na systemy operacyjne z rodziny Linux, 
+chociaż powinien on działać na Windowsie, ponieważ kod nie 
+używa żadnych zależnych od platformy plików nagłówkowych. 
+Program używa  systemu CMake do budowania projektu. 
+Można skompilować go na dwa sposoby:
+    \begin{itemize}
+         
+    \item Sposób 1:
+        \begin{enumerate}
+            \item Wejść do folderu build/
+            \item Wykonać polecenie cmake ..
+        \end{enumerate}
+
+    \item Sposób 2:
+        \begin{enumerate}
+            \item Z katalogu głównego wywołać skrypt ./bld.sh. Ze względu na fakt, że skrypt wywołuje program make, może on nie działać na Windowsie.
+        \end{enumerate}
+
+    \end{itemize}
+
+Po zbudowaniu powienien się plik wykonywalny o ./build/connect-four. 
+Z uwagi na fakt, że ścieżki do zasobów są wpisane w programie relatywnie 
+do głównego katalogu, to program wykonywalny powinien z niego wywoływany.
+
+\section{Pliki źródłowe}
+
+\section{Zależności}
+
+\section{Opis klas}
+
+\section{Zasoby}
+
+\section{Dalszy rozwój i ulepszenia}
+
+\section{Inne}
+
+
+\end{document}
+
