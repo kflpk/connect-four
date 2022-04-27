@@ -2,6 +2,7 @@
 #include <sys/ioctl.h>
 #include <ncurses.h>
 #include "menu.h"
+#include "game.h"
 #include "color.h"
 #include "extras.h"
 
@@ -12,20 +13,20 @@ int main() {
 
     startup();
 
-    Menu menu;
-    menu.Start();
+    // Menu menu;
+    // menu.Start();
+    
+    GameParameters params;
 
-    // while (c != '\f') {
-    //     menu.Draw();
-    //     c = getch();
+    Game game;
+    game.set_parameters(params);
+    game.draw_frame();
+    game.draw_board();
+    
 
-    //     if(c == 'j')
-    //         menu.next_option();
-    //     else if(c == 'k')
-    //         menu.prev_option();
-    //     else if(c == '\e')
-    //         exit(0);
-    // }
+
+    getch();
+
 
     cleanup();
 }

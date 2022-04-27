@@ -1,7 +1,8 @@
 #pragma once
 
-#include "board.h"
 #include <cinttypes>
+#include <ncurses.h>
+#include "board.h"
 #include "menu.h"
 
 enum GameState {
@@ -15,17 +16,31 @@ enum PlayerTurn {
     player2
 };
 
+struct Colors {
+    int player1 = 0;
+    int player2 = 0;
+};
+
 class Game {
     private:
+        uint16_t width, height;
+
         Board board;
-        // game state
         GameState state;
         Menu menu;
         uint16_t focused_column;
+        Colors player_colors;
+        WINDOW* indicators_win;
+        WINDOW* board_win;
+
+    public: 
+        void draw_frame();
+        void draw_board();
+        void draw_tiles();
+        void key_handler();
+        void set_parameters(GameParameters parameters);
     public:
-        Game() {
-            board = Board(5, 7);
-            state = active; 
-        }
+        Game();
+        void Start();
         void Loop();
 };

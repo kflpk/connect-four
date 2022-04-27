@@ -5,7 +5,6 @@
 #include "color.h"
 #include "extras.h"
 
-// TODO: Make a key-hadling method for Menu
 
 void Menu::draw_logo() {
     // TODO: Refactor the hell out of it, because it's ugly
@@ -154,7 +153,7 @@ void Menu::key_handler() {
         case ' ': //spacebar
             switch(current_button) {
                 case play:
-                    //play
+                    // TODO: play
                     break;
 
                 case load_game:
