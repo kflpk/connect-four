@@ -1,9 +1,16 @@
-\documentclass{book} 
-% \usepackage{polski}
+\documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage[OT4]{fontenc}
+\usepackage{polski}
+\usepackage{lmodern}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{geometry}
 
-% \usepackage[QX]{fontenc}
-% \usepackage{lmodern}
+% # TODO: Add a stylised code block for use in code snippets and function names
+% # TODO: Stylise the page with 'geometry' package
+% # TODO: Make a title page for the document
+% # TODO: Stylise the title page to look like the template
+% # TODO: Format the style of the document
 
 
 \title{Connect Four}
@@ -12,11 +19,12 @@
 
 \begin{document}
 
+
 \maketitle
 
 \section{Opis projektu}
 
-Projekt jest realizacją gry w "Czwórki" (ang. "Connect Four") w C++, z interfejsem TUI (t.j. interfejs używający znaków specjalnych i kolorów do rysowania interfejsu użytkownika w konsoli).
+Projekt jest realizcją gry w "Czwórki" (ang. "Connect Four") w C++, z interfejsem TUI (t.j. interfejs używający znaków specjalnych i kolorów do rysowania interfejsu użytkownika w konsoli).
 
 
 \section{Project description}
@@ -24,15 +32,6 @@ Projekt jest realizacją gry w "Czwórki" (ang. "Connect Four") w C++, z interfe
 The project is a realisation of the game "Connect Four" made in C++ with TUI interface (an interface using special characters for drawing UI in the terminal)
 
 \section{Instrukcja użytkownika}
-
-W tym punkcie należy umieścić instrukcję użytkowania programu. 
-Może być to na przykład opis poszczególnych menu w programie. 
-W przypadku gry należy opisać zasady gry. 
-Opcjonalnie można wstawić zrzuty ekranu. 
-Jeśli uruchomienie programu wymaga wykonania jakiś 
-niestandardowych lub dodatkowych czynności 
-(na przykład uruchomienie serwera baz danych itp.) 
-to należy zamieścić tę informację.
 
 \section{Kompilacja}
 
@@ -62,11 +61,61 @@ do głównego katalogu, to program wykonywalny powinien z niego wywoływany.
 
 \section{Pliki źródłowe}
 
+W tym punkcie należy opisać wszystkie pliki źródłowe (.cpp, .h) w projekcie. Należy podać nazwę każdego pliku oraz informację o tym co się w nim znajduje. Na przykład:
+Projekt składa się z następujących plików źródłowych:
+    \begin{itemize}
+    \item board.h, board.cpp – deklaracja oraz implementacja klasy Board,
+    \item game.h, game.cpp – deklaracja oraz implementacja klasy Game,
+    \item menu.h, menu.cpp – deklaracja oraz implementacja klasy Menu.
+    \item extras.h, extras.cpp – deklaracja oraz implementacja funkcji pomocniczych.
+    \item color.h – definicje procesora nazw kolorów do użycia w funkcjach biblioteki ncurses.
+    \item main.cpp – główny plik z implementacją funkcji main.
+    \end{itemize}
+
 \section{Zależności}
 
+W projekcie wykorzystano następujące dodatkowe biblioteki:
+    \begin{itemize}
+    \item ncurses – biblioteka do sterowania interakcji z emulatorem terminala,  
+    pozwala  tworzyć zaawansowane interfejsy konsolowe: \\
+    \url{https://invisible-island.net/ncurses/}
+    \end{itemize}
 \section{Opis klas}
 
+W projekcie utworzono następujące klasy:
+% TODO: Add code blocks for function names
+\begin{itemize}
+    \item Menu
+        \begin{itemize}
+            \item Menu
+            \item void Draw
+            \item void Update
+            \item void Start
+            \item void Loop
+            \item void key\_handler
+            \item void next\_option
+            \item void prev\_option
+        \end{itemize}
+    \item Game
+        \begin{itemize}
+            \item Game
+        \end{itemize}
+    \item Board
+        \begin{itemize}
+            \item Board
+        \end{itemize}
+\end{itemize}
+     
 \section{Zasoby}
+
+W projekcie wykorzystywane są następujące pliki zasobów:
+    \begin{itemize}
+    \item assets/ – katalog zawierający dodatkowe zasoby do gry.\\
+    Struktura katalogu:
+        \begin{itemize}
+            \item logo1.txt, logo2.txt – pliki zawierające tekstowe logo pojawiające się na ekranie startowym.
+        \end{itemize}
+    \end{itemize}
 
 \section{Dalszy rozwój i ulepszenia}
 
