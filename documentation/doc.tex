@@ -4,14 +4,24 @@
 \usepackage{polski}
 \usepackage{lmodern}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
-\usepackage{geometry}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
 
 % # TODO: Add a stylised code block for use in code snippets and function names
 % # TODO: Stylise the page with 'geometry' package
 % # TODO: Make a title page for the document
-% # TODO: Stylise the title page to look like the template
 % # TODO: Format the style of the document
 
+\graphicspath{ {./img/} }
+
+\input{tex/titlepage.tex}
+
+\setDepartment{Elektronika I}
+\setGroup{czwartek 14:40}
+\setFaculty{Elektronika I}
+\setReviewer{Rafał Frączek}
+\setSupervisor{Rafał Frączek}
+\setMajor{Dupa}
 
 \title{Connect Four}
 \author{Kacper Filipek}
@@ -19,13 +29,16 @@
 
 \begin{document}
 
+\fontfamily{cmss}
+\selectfont
 
 \maketitle
 
+\newpage
+
 \section{Opis projektu}
 
-Projekt jest realizcją gry w "Czwórki" (ang. "Connect Four") w C++, z interfejsem TUI (t.j. interfejs używający znaków specjalnych i kolorów do rysowania interfejsu użytkownika w konsoli).
-
+Projekt jest realizcją gry w "Czwórki" (ang. "Connect Four") w C++, z interfejsem TUI (t.j. interfejs używający znaków specjalnych i kolorów do rysowania interfejsu użytkownika w konsoli). 
 
 \section{Project description}
 
@@ -76,33 +89,38 @@ Projekt składa się z następujących plików źródłowych:
 
 W projekcie wykorzystano następujące dodatkowe biblioteki:
     \begin{itemize}
-    \item ncurses – biblioteka do sterowania interakcji z emulatorem terminala,  
-    pozwala  tworzyć zaawansowane interfejsy konsolowe: \\
+    \item ncurses – biblioteka do interakcji z emulatorem terminala,  
+    pozwala  tworzyć zaawansowane interfejsy konsolowe:\\
     \url{https://invisible-island.net/ncurses/}
     \end{itemize}
 \section{Opis klas}
 
 W projekcie utworzono następujące klasy:
-% TODO: Add code blocks for function names
 \begin{itemize}
     \item Menu
         \begin{itemize}
-            \item Menu
-            \item void Draw
-            \item void Update
-            \item void Start
-            \item void Loop
-            \item void key\_handler
-            \item void next\_option
-            \item void prev\_option
+            \item Menu()
+            \item void Draw()
+            \item void Update()
+            \item void Start()
+            \item void Loop()
+            \item void key\_handler()
+            \item void next\_option()
+            \item void prev\_option()
         \end{itemize}
+
     \item Game
         \begin{itemize}
-            \item Game
+            \item void Game()
+            \item void Start()
+            \item void Loop()
         \end{itemize}
+
     \item Board
         \begin{itemize}
-            \item Board
+            \item Board()
+            \item get\_columns()
+            \item get\_rows()
         \end{itemize}
 \end{itemize}
      
