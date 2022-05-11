@@ -7,7 +7,7 @@
 #include "extras.h"
 
 int main() {
-
+    /*
     std::atexit(cleanup); // closes ncurses at exit so that the terminal output 
                           // is not broken at after program exits
     startup();
@@ -25,4 +25,30 @@ int main() {
     getch();
 
     cleanup();
+    */
+
+    Board brd(5, 7);
+    for(uint16_t i = 0; i < brd.get_rows(); i++) {
+        for(uint16_t j = 0; j < brd.get_columns(); j++) {
+            std::cout << (int)brd[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    bool flag;
+    while((flag = brd.drop_chip(5, 1))){
+        if(flag)
+            std::cout << "wrzucono rzeton\n";
+    
+        for(uint16_t i = 0; i < brd.get_rows(); i++) {
+            for(uint16_t j = 0; j < brd.get_columns(); j++) {
+                std::cout << (int)brd[i][j] << " ";
+            }
+            std::cout << std::endl;
+
+        }
+        std::cout << std::endl;
+    }
+    if(flag == false)
+       std::cout<<"not enough room\n" ;
 }
