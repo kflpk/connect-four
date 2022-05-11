@@ -24,4 +24,8 @@ Board::Board() {
 uint16_t Board::get_columns(void) { return columns; }
 uint16_t Board::get_rows(void) { return rows; }
 
+std::vector<uint8_t>::iterator Board::operator[] (int index) {
+    return this->content.begin() + index * this->columns;
+}
+
 // TODO: Overload the [] operator for easier access

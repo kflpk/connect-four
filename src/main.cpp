@@ -10,7 +10,6 @@ int main() {
 
     std::atexit(cleanup); // closes ncurses at exit so that the terminal output 
                           // is not broken at after program exits
-
     startup();
 
     // Menu menu;
@@ -22,11 +21,8 @@ int main() {
     game.set_parameters(params);
     game.draw_frame();
     game.draw_board();
-    
-
 
     getch();
-
 
     cleanup();
 }

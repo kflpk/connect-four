@@ -18,5 +18,6 @@ class Board {
         Board();
         uint16_t get_columns(void);
         uint16_t get_rows(void);
+        std::vector<uint8_t>::iterator operator[] (int index);
 
 };
