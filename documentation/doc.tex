@@ -57,32 +57,32 @@ Można skompilować go na dwa sposoby:
          
     \item Sposób 1:
         \begin{enumerate}
-            \item Wejść do folderu build/
-            \item Wykonać polecenie cmake ..
+            \item Wejść do folderu \texttt{build/}
+            \item Wykonać polecenie \texttt{cmake ..}
         \end{enumerate}
 
     \item Sposób 2:
         \begin{enumerate}
-            \item Z katalogu głównego wywołać skrypt ./bld.sh. Ze względu na fakt, że skrypt wywołuje program make, może on nie działać na Windowsie.
+            \item Z katalogu głównego wywołać skrypt \texttt{./bld.sh}. Ze względu na fakt, że skrypt wywołuje program make, może on nie działać na Windowsie.
         \end{enumerate}
 
     \end{itemize}
 
-Po zbudowaniu powienien się plik wykonywalny o ./build/connect-four. 
+Po zbudowaniu powienien się plik wykonywalny o \texttt{./build/connect-four}.
 Z uwagi na fakt, że ścieżki do zasobów są wpisane w programie relatywnie 
 do głównego katalogu, to program wykonywalny powinien z niego wywoływany.
 
 \section{Pliki źródłowe}
 
-W tym punkcie należy opisać wszystkie pliki źródłowe (.cpp, .h) w projekcie. Należy podać nazwę każdego pliku oraz informację o tym co się w nim znajduje. Na przykład:
+W tym punkcie należy opisać wszystkie pliki źródłowe (\texttt{.cpp}, \texttt{.h}) w projekcie. Należy podać nazwę każdego pliku oraz informację o tym co się w nim znajduje. Na przykład:
 Projekt składa się z następujących plików źródłowych:
     \begin{itemize}
-    \item board.h, board.cpp – deklaracja oraz implementacja klasy Board,
-    \item game.h, game.cpp – deklaracja oraz implementacja klasy Game,
-    \item menu.h, menu.cpp – deklaracja oraz implementacja klasy Menu.
-    \item extras.h, extras.cpp – deklaracja oraz implementacja funkcji pomocniczych.
-    \item color.h – definicje procesora nazw kolorów do użycia w funkcjach biblioteki ncurses.
-    \item main.cpp – główny plik z implementacją funkcji main.
+    \item \texttt{board.h}, \texttt{board.cpp} – deklaracja oraz implementacja klasy Board,
+    \item \texttt{game.h}, \texttt{game.cpp} – deklaracja oraz implementacja klasy Game,
+    \item \texttt{menu.h}, \texttt{menu.cpp} – deklaracja oraz implementacja klasy Menu.
+    \item \texttt{extras.h}, extras.cpp – deklaracja oraz implementacja funkcji pomocniczych.
+    \item \texttt{color.h} – definicje procesora nazw kolorów do użycia w funkcjach biblioteki ncurses.
+    \item \texttt{main.cpp} – główny plik z implementacją funkcji main.
     \end{itemize}
 
 \section{Zależności}
@@ -99,28 +99,28 @@ W projekcie utworzono następujące klasy:
 \begin{itemize}
     \item Menu
         \begin{itemize}
-            \item Menu()
-            \item void Draw()
-            \item void Update()
-            \item void Start()
-            \item void Loop()
-            \item void key\_handler()
-            \item void next\_option()
-            \item void prev\_option()
+            \item \texttt{Menu()}
+            \item \texttt{void Draw()}
+            \item \texttt{void Update()}
+            \item \texttt{void Start()}
+            \item \texttt{void Loop()}
+            \item \texttt{void key\_handler()}
+            \item \texttt{void next\_option()}
+            \item \texttt{void prev\_option()}
         \end{itemize}
 
     \item Game
         \begin{itemize}
-            \item void Game()
-            \item void Start()
-            \item void Loop()
+            \item \texttt{void Game()}
+            \item \texttt{void Start()}
+            \item \texttt{void Loop()}
         \end{itemize}
 
     \item Board
         \begin{itemize}
-            \item Board()
-            \item get\_columns()
-            \item get\_rows()
+            \item \texttt{Board()}
+            \item \texttt{get\_columns()}
+            \item \texttt{get\_rows()}
         \end{itemize}
 \end{itemize}
      
@@ -128,10 +128,10 @@ W projekcie utworzono następujące klasy:
 
 W projekcie wykorzystywane są następujące pliki zasobów:
     \begin{itemize}
-    \item assets/ – katalog zawierający dodatkowe zasoby do gry.\\
+    \item \texttt{assets/} – katalog zawierający dodatkowe zasoby do gry.\\
     Struktura katalogu:
         \begin{itemize}
-            \item logo1.txt, logo2.txt – pliki zawierające tekstowe logo pojawiające się na ekranie startowym.
+            \item \texttt{logo1.txt}, \texttt{logo2.txt} – pliki zawierające tekstowe logo pojawiające się na ekranie startowym.
         \end{itemize}
     \end{itemize}
 
