@@ -77,14 +77,6 @@ void Menu::draw_content() {
     wrefresh(content);
 }
 
-// bool Menu::is_frame(uint16_t row, uint16_t col) {
-//     if(row == 0 || row == height - 1 || 
-//        col == 0 || col == 1 || col == width -  2 || col == width  - 1 )
-//         return true;
-//     else
-//         return false;
-// }
-
 void Menu::set_parameters() {
     getmaxyx(stdscr, height, width);
     logo_offset.y = 2;

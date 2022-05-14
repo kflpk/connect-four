@@ -12,6 +12,7 @@ Board::Board(uint8_t board_rows, uint8_t board_columns)  {
     rows = board_rows;
     columns = board_columns;
     content.resize(rows * columns);
+
     for(int i = 0; i < rows * columns; i++)
         content[i] = 0;
 }
@@ -21,6 +22,7 @@ Board::Board() {
     this->rows = 5;
     this->columns = 7;
     this->content.resize(rows * columns);
+ 
     for(int i = 0; i < rows * columns; i++)
         this->content[i] = 0;
 }
@@ -39,6 +41,7 @@ bool Board::drop_chip(uint16_t col, uint8_t player) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -56,8 +59,10 @@ uint8_t Board::check_victory() {
                 streak = 1;
             }
 
-            if(streak == victory_condition)
+            if(streak == victory_condition) {
+                // TODO: save winning tokens' coordinates to a vector for drawing
                 return prev;
+            }
 
         }
         prev = 0;
