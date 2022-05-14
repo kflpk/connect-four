@@ -36,7 +36,8 @@ int main() {
     }
 
     bool flag;
-    while((flag = brd.drop_chip(5, 1))){
+    uint8_t winner;
+    for(uint16_t i = 0; (flag = brd.drop_chip(i, 1)); i++){
         if(flag)
             std::cout << "wrzucono rzeton\n";
     
@@ -45,9 +46,13 @@ int main() {
                 std::cout << (int)brd[i][j] << " ";
             }
             std::cout << std::endl;
-
         }
+
         std::cout << std::endl;
+        if( (winner = brd.check_victory()) ) {
+            std::cout << "zwyciezyl gracz " << (int)winner << std::endl;
+            return 0;
+        }
     }
     if(flag == false)
        std::cout<<"not enough room\n" ;
