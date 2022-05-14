@@ -13,6 +13,7 @@ class Board {
         uint16_t columns;
         uint16_t victory_condition;
         std::vector<uint8_t> content;
+        bool diagonal_check(uint8_t player);
 
     public:
         Board(uint8_t rows, uint8_t columns);
@@ -22,5 +23,6 @@ class Board {
         std::vector<uint8_t>::iterator operator[] (int index);
         bool drop_chip(uint16_t col, uint8_t player);
         uint8_t check_victory();
+        void clear();
 
 };
