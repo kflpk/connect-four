@@ -8,7 +8,7 @@
 
 
 Board::Board(uint8_t board_rows, uint8_t board_columns)  {
-    this->victory_condition = 8;
+    this->victory_condition = 4;
     rows = board_rows;
     columns = board_columns;
     content.resize(rows * columns);
@@ -119,6 +119,18 @@ uint8_t Board::check_victory() {
         return 2;
 
     return 0;
+}
+
+void Board::printbrd() {
+    for(uint16_t i = 0; i < rows; i++) {
+        for(uint16_t j = 0; j < columns; j++) {
+            if((*this)[i][j])
+                std::cout << (int)(*this)[i][j] << " ";
+            else
+                std::cout << "  ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 std::vector<uint8_t>::iterator Board::operator[] (int index) {

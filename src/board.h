@@ -24,5 +24,6 @@ class Board {
         bool drop_chip(uint16_t col, uint8_t player);
         uint8_t check_victory();
         void clear();
+        void printbrd();
 
 };

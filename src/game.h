@@ -24,7 +24,7 @@ struct Colors {
 class Game {
     private:
         uint16_t width, height;
-
+        uint8_t current_player;
         Board board;
         GameState state;
         Menu menu;
@@ -37,6 +37,9 @@ class Game {
         void draw_frame();
         void draw_board();
         void draw_tiles();
+        void draw_indicators();
+        void next_column();
+        void prev_column();
         void key_handler();
         void set_parameters(GameParameters parameters);
     public:

@@ -17,6 +17,7 @@ void Game::set_parameters(GameParameters parameters) {
     player_colors.player1 = parameters.player1_color;
     player_colors.player2 = parameters.player2_color;
 
+    focused_column = 0;
 }
 
 void Game::draw_frame() {
@@ -69,10 +70,63 @@ void Game::draw_tiles() {
 
 }
 
-void Game::key_handler() {
+void Game::draw_indicators() {
+    wattron(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
+    wfill(indicators_win, 0);
+    box(indicators_win, 0, 0);
+    wmove(indicators_win, 2, 2);
+    wprintw(indicators_win, "Columns: %i", focused_column);
+    wattroff(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
+}
 
+void Game::next_column() {
+    if(focused_column < board.get_columns() - 1) {
+        focused_column++;
+    }
+}
+
+void Game::prev_column() {
+    if(focused_column > 0) {
+        focused_column--;
+    }
+}
+
+void Game::key_handler() {
+    int key;
+    keypad(indicators_win, true);
+    key = wgetch(indicators_win);
+    
+    switch(key) {
+        case KEY_LEFT:
+        case KEY_UP:
+        case 'k':
+            prev_column();
+            break;
+
+        case KEY_RIGHT:
+        case KEY_DOWN:
+        case 'j':
+            next_column();
+            break;
+
+        case '\n': //enter key (for some reason KEY_ENTER didn't work)
+        case ' ': //spacebar
+            if(board.drop_chip(focused_column, current_player)) {
+
+            }
+            break;
+
+        case '\e':  //ESC key
+            exit(0);
+            break;
+    }
 }
 
 void Game::Loop() {
-
+    while(true) {
+        draw_frame();
+        draw_board();
+        draw_indicators();
+        key_handler();
+    }
 }
