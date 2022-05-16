@@ -33,6 +33,10 @@ class Game {
         WINDOW* indicators_win;
         WINDOW* board_win;
 
+        uint32_t _ind_ver_off = 3;
+        uint32_t _ind_hor_off = 5;
+
+
     public: 
         void draw_frame();
         void draw_board();

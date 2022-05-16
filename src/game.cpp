@@ -24,19 +24,26 @@ void Game::draw_frame() {
 
     wattron(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
     wfill(indicators_win, ' ');
-    box(indicators_win, 0 ,0);
+    // box(indicators_win, 0 ,0);
     wattroff(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
 
-    wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
-    wfill(board_win, ' ');
-    wborder(board_win, 0 ,0 ,0 , 0, ACS_LTEE, ACS_RTEE, 0, 0);
-    wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
+    // wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
+    // wfill(board_win, ' ');
+    // wborder(board_win, 0 ,0 ,0 , 0, ACS_LTEE, ACS_RTEE, 0, 0);
+    // wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
 
     wrefresh(indicators_win);
-    wrefresh(board_win);
+    // wrefresh(board_win);
 }
 
 void Game::draw_board() {
+    wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
+    wfill(board_win, ' ');
+    // wborder(board_win, 'x','x','x', 'x', ACS_LTEE, ACS_RTEE, 0, 0);
+    wborder(board_win, 0, 0, 0, 0, ACS_LTEE, ACS_RTEE, 0, 0);
+    wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
+
+
     uint16_t board_win_width;
     uint16_t board_win_height;
 
@@ -73,9 +80,16 @@ void Game::draw_tiles() {
 void Game::draw_indicators() {
     wattron(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
     wfill(indicators_win, 0);
-    box(indicators_win, 0, 0);
-    wmove(indicators_win, 2, 2);
-    wprintw(indicators_win, "Columns: %i", focused_column);
+    // box(indicators_win, 0, 0);
+    wborder(indicators_win, 0, 0, 0, 0, 0, 0, ACS_LTEE, ACS_RTEE);
+    // wmove(indicators_win, 2, 2);
+    // wprintw(indicators_win, "Columns: %i", focused_column);
+
+    for(uint32_t col = 0; col < board.get_columns(); col++) {
+        wmove(indicators_win, _ind_ver_off, _ind_hor_off + 5 * col);
+        wprintw(indicators_win, "[%c]", col == focused_column ? 'v' : ' ');
+    }
+
     wattroff(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
 }
 
@@ -100,12 +114,14 @@ void Game::key_handler() {
         case KEY_LEFT:
         case KEY_UP:
         case 'k':
+        case 'h':
             prev_column();
             break;
 
         case KEY_RIGHT:
         case KEY_DOWN:
         case 'j':
+        case 'l':
             next_column();
             break;
 
@@ -125,8 +141,8 @@ void Game::key_handler() {
 void Game::Loop() {
     while(true) {
         draw_frame();
-        draw_board();
         draw_indicators();
+        draw_board();
         key_handler();
     }
 }
