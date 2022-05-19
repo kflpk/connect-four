@@ -107,8 +107,29 @@ void Game::draw_indicators() {
     wmove(indicators_win, 1, 1);
     wprintw(indicators_win, "Columns: %i", focused_column);
 
+
+
+    uint16_t indicators_win_width;
+    uint16_t indicators_win_height;
+
+    getmaxyx(indicators_win, indicators_win_height, indicators_win_width);
+
+    uint32_t cell_width  = 7;
+    uint32_t cell_height = 3;
+
+    uint32_t board_width  = board.get_columns() * (cell_width + 1);
+
+    uint32_t horizontal_offset = (indicators_win_width  - board_width ) / 2;
+
+
+
+
+
+    _ind_hor_off = horizontal_offset + 2;
+
+    // TODO: Add spacing vars
     for(uint32_t col = 0; col < board.get_columns(); col++) {
-        wmove(indicators_win, _ind_ver_off, _ind_hor_off + 5 * col);
+        wmove(indicators_win, _ind_ver_off, _ind_hor_off + 9 * col);
         wprintw(indicators_win, "[%c]", col == focused_column ? 'v' : ' ');
     }
 
