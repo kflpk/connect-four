@@ -12,8 +12,8 @@ enum GameState {
 };
 
 enum PlayerTurn {
-    player1,
-    player2
+    player1 = 1,
+    player2 = 2
 };
 
 struct Colors {
@@ -24,7 +24,7 @@ struct Colors {
 class Game {
     private:
         uint16_t width, height;
-        uint8_t current_player;
+        uint8_t current_player = 1;
         Board board;
         GameState state;
         Menu menu;
