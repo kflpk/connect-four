@@ -16,7 +16,7 @@ class Board {
         bool diagonal_check(uint8_t player);
 
     public:
-        Board(uint8_t rows, uint8_t columns);
+        Board(uint8_t board_rows, uint8_t board_columns);
         Board();
         uint16_t get_columns(void);
         uint16_t get_rows(void);
