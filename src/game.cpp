@@ -47,47 +47,32 @@ void Game::draw_board() {
 
     getmaxyx(board_win, board_win_height, board_win_width);
 
-    // uint16_t cell_width  = (board_win_width  - 3) / board.get_columns() - 1;
-    // uint16_t cell_height = (board_win_height - 3) / board.get_rows() - 1;
+    uint32_t cell_width  = 7;
+    uint32_t cell_height = 3;
 
-    // cell_height = cell_width > (2 * cell_height) ? cell_height : cell_width;
-    // cell_width = 2 * cell_height;
+    uint32_t board_width  = board.get_columns() * (cell_width + 1);
+    uint32_t board_height = board.get_rows() * (cell_height + 1);
 
-    // uint16_t board_width  = board.get_columns() * (cell_width + 1);
-    // uint16_t board_height = board.get_rows() * (cell_height + 1);
+    uint32_t horizontal_offset = (board_win_width  - board_width ) / 2;
+    uint32_t vertical_offset   = (board_win_height - board_height) / 2;
 
-    // uint16_t horizontal_offset = (board_win_width  - board_width ) / 2;
-    // uint16_t vertical_offset   = (board_win_height - board_height) / 2;
-
-    // for(uint32_t row = vertical_offset; row < vertical_offset + board_height; row++) {
-    //     for(uint32_t col = horizontal_offset; col < horizontal_offset + board_width; col++) {
-    //         wmove(board_win, row, col);
-    //         wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
-    //         wprintw(board_win, "x");
-    //         wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
-    //     }
-    // }
-
-    uint16_t cell_width  = 7;
-    uint16_t cell_height = 3;
-
-    uint16_t board_width  = board.get_columns() * (cell_width + 1);
-    uint16_t board_height = board.get_rows() * (cell_height + 1);
-
-    uint16_t horizontal_offset = (board_win_width  - board_width ) / 2;
-    uint16_t vertical_offset   = (board_win_height - board_height) / 2;
-
-    // for(uint16_t row = 0; row < board.get_rows(); row++) {
-    //     for(uint16_t col = 0; col < board.get_columns(); col++) {
-    //         wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
-    //         mvwprintw(board_win, 1 + row, 5 + col, "%d", board[row][col]);
-    //         wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
-    //     }
-    // }
-
+    // Placing color-rendered rectangles on the board according to player
     for(uint32_t row = 0; row < board.get_rows(); row++)
         for(uint32_t col = 0; col < board.get_columns(); col++)
             draw_tile(row, col, cell_height, cell_width, vertical_offset, horizontal_offset);
+
+    // Drawing the frame around the tokens
+    // TODO: add variables for spacing between chips, now they are hard coded an the code is hard to read
+    for(uint32_t y = 0; y <= board.get_rows() * (cell_height + 1); y++) {
+        for(uint32_t x = 0; x < board.get_columns() * (cell_width + 2) + 2; x++) {
+            if(y % (cell_height + 1) == 0 || x % (cell_width + 2) == 0 || x % (cell_width + 2) == 1) {
+                wmove(board_win, y + vertical_offset - 1, x + horizontal_offset - 2);
+                wattron(board_win, COLOR_PAIR(PAIR_FRAME));
+                wprintw(board_win, "x");
+                wattroff(board_win, COLOR_PAIR(PAIR_FRAME));
+            }
+        }
+    }
 
     wrefresh(board_win);
 }
