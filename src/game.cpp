@@ -8,7 +8,6 @@ Game::Game() {
 }
 
 void Game::set_parameters(GameParameters parameters) {
-
     uint16_t _ind_height = 7;
 
     indicators_win = newwin(_ind_height, width, 0, 0);
@@ -20,8 +19,14 @@ void Game::set_parameters(GameParameters parameters) {
     focused_column = 0;
 }
 
-void Game::draw_frame() {
+void Game::switch_player() {
+    if(current_player == 1)
+        current_player = 2;
+    else
+        current_player = 1;
+}
 
+void Game::draw_frame() {
     wattron(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
     wfill(indicators_win, ' ');
     wattroff(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
@@ -63,7 +68,7 @@ void Game::draw_board() {
     //     }
     // }
 
-    uint16_t cell_width  = 4;
+    uint16_t cell_width  = 7;
     uint16_t cell_height = 3;
 
     uint16_t board_width  = board.get_columns() * (cell_width + 1);
@@ -72,28 +77,42 @@ void Game::draw_board() {
     uint16_t horizontal_offset = (board_win_width  - board_width ) / 2;
     uint16_t vertical_offset   = (board_win_height - board_height) / 2;
 
-    for(uint16_t row = 0; row < board.get_rows(); row++) {
-        for(uint16_t col = 0; col < board.get_columns(); col++) {
-            wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
-            mvwprintw(board_win, 1 + row, 5 + col, "%d", board[row][col]);
-            wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
-        }
-    }
+    // for(uint16_t row = 0; row < board.get_rows(); row++) {
+    //     for(uint16_t col = 0; col < board.get_columns(); col++) {
+    //         wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
+    //         mvwprintw(board_win, 1 + row, 5 + col, "%d", board[row][col]);
+    //         wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
+    //     }
+    // }
 
-    for(uint32_t row = vertical_offset; row < vertical_offset + board_height; row++) {
-        for(uint32_t col = horizontal_offset; col < horizontal_offset + board_width; col++) {
-            wmove(board_win, row, col);
-            wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
-            wprintw(board_win, "x");
-            wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
-        }
-    }
+    for(uint32_t row = 0; row < board.get_rows(); row++)
+        for(uint32_t col = 0; col < board.get_columns(); col++)
+            draw_tile(row, col, cell_height, cell_width, vertical_offset, horizontal_offset);
 
     wrefresh(board_win);
 }
 
-void Game::draw_tiles() {
+void Game::draw_tile(uint16_t row, uint16_t col, uint16_t cell_height, uint16_t cell_width, 
+uint16_t off_y, uint16_t off_x) {
+    for(uint16_t y = 0; y < cell_height; y++) {
+        for(uint16_t x = 0; x < cell_width; x++) {
+            wmove(board_win, (row * (cell_height + 1)) + off_y + y, (col * (cell_width + 2)) + off_x + x);
 
+            if(board[row][col] == 1) {
+                wattron(board_win, COLOR_PAIR(PAIR_PLAYER1));
+                wprintw(board_win, " ");
+                wattroff(board_win, COLOR_PAIR(PAIR_PLAYER1));
+            } else if (board[row][col] == 2) {
+                wattron(board_win, COLOR_PAIR(PAIR_PLAYER2));
+                wprintw(board_win, " ");
+                wattroff(board_win, COLOR_PAIR(PAIR_PLAYER2));
+            } else {
+                wattron(board_win, COLOR_PAIR(PAIR_DEFAULT));
+                wprintw(board_win, " ");
+                wattroff(board_win, COLOR_PAIR(PAIR_DEFAULT));
+            }
+        }
+    }
 }
 
 void Game::draw_indicators() {
@@ -146,7 +165,7 @@ void Game::key_handler() {
         case '\n': //enter key (for some reason KEY_ENTER didn't work)
         case ' ': //spacebar
             if(board.drop_chip(focused_column, current_player)) {
-
+                switch_player();
             }
             break;
 
