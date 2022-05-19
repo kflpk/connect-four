@@ -48,6 +48,7 @@ class Game {
         void key_handler();
         void set_parameters(GameParameters parameters);
         void switch_player();
+        void display_victory_screen(uint8_t player);
     public:
         Game();
         void Start();

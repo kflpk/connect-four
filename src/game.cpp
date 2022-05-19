@@ -115,15 +115,10 @@ void Game::draw_indicators() {
     getmaxyx(indicators_win, indicators_win_height, indicators_win_width);
 
     uint32_t cell_width  = 7;
-    uint32_t cell_height = 3;
 
     uint32_t board_width  = board.get_columns() * (cell_width + 1);
 
     uint32_t horizontal_offset = (indicators_win_width  - board_width ) / 2;
-
-
-
-
 
     _ind_hor_off = horizontal_offset + 2;
 
@@ -148,10 +143,37 @@ void Game::prev_column() {
     }
 }
 
+void Game::display_victory_screen(uint8_t player) {
+    //cleanup();
+    uint32_t win_width = 25;
+    uint32_t win_height = 8;
+
+    WINDOW* win_screen = newwin(win_height, win_width, (height - win_height) / 2, (width - win_width) / 2);
+    wattron(win_screen, COLOR_PAIR(PAIR_DEFAULT));
+
+    wfill(win_screen, 0);
+    box(win_screen, 0, 0);
+    wmove(win_screen, 1, 6);
+    wprintw(win_screen, "Player %d won!", (int)player);
+    
+    wmove(win_screen, 4, 6);
+    wprintw(win_screen, "Press any key");
+    wmove(win_screen, 5, 6);
+    wprintw(win_screen, "to continue...");
+    wattroff(win_screen, COLOR_PAIR(PAIR_DEFAULT));
+
+    wrefresh(win_screen);
+
+    getch();
+    exit(0);
+    //exit(0);
+}
+
 void Game::key_handler() {
     int key;
     keypad(indicators_win, true);
     key = wgetch(indicators_win);
+    uint8_t winner;
     
     switch(key) {
         case KEY_LEFT:
@@ -187,5 +209,9 @@ void Game::Loop() {
         draw_indicators();
         draw_board();
         key_handler();
+        if(uint8_t winner = board.check_victory()) {
+            draw_board();
+            display_victory_screen(winner);
+        }
     }
 }
