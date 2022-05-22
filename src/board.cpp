@@ -51,18 +51,30 @@ void Board::clear() {
 }
 
 bool Board::diagonal_check(uint8_t player) {
-    uint16_t streak;
+    uint16_t streak = 0;
 
-    for(uint16_t rowStart = 0; rowStart < columns - 1 - victory_condition; rowStart++){
-        streak = 0;
-        int row, col;
-        for( row = rowStart, col = 0; row < rows - 1 && col < columns - 1; row++, col++ ){
-            if((*this)[row][col] == player){
-                streak++;
-                if(streak >= victory_condition) return 1;
+    // top-left to bottom-right diagonal detection
+    for(uint16_t row_start = 0; row_start <= rows - victory_condition; row_start++) {
+        for(uint16_t col_start = 0; col_start <= columns - victory_condition; col_start++) {
+            streak = 0;
+            for(uint16_t diag = 0; diag < victory_condition; diag++) {
+                if( (*this)[row_start + diag][col_start + diag] == player )
+                    streak++;
+                if(streak == victory_condition)
+                    return (*this)[row_start][col_start];
             }
-            else {
-                streak = 0;
+        }
+    }
+
+    // top-right to bottom-left diagonal detection
+    for(uint16_t row_start = 0; row_start <= rows - victory_condition; row_start++) {
+        for(uint16_t col_start = columns - 1; col_start >= victory_condition - 1; col_start--) {
+            streak = 0;
+            for(uint16_t diag = 0; diag < victory_condition; diag++) {
+                if( (*this)[row_start + diag][col_start - diag] == player )
+                    streak++;
+                if(streak == victory_condition)
+                    return (*this)[row_start][col_start];
             }
         }
     }
@@ -75,6 +87,11 @@ uint8_t Board::check_victory() {
     // TODO: save coordinates of the winning chips
     uint16_t streak = 0;
     uint16_t prev = 0;
+
+    if(diagonal_check(1))
+        return 1;
+    else if(diagonal_check(2))        
+        return 2;
 
     for(uint16_t row = 0; row < this->rows; row++) { // Detecting horizontal lines
         for(uint16_t col = 0; col < this->columns; col++) {
@@ -112,11 +129,6 @@ uint8_t Board::check_victory() {
         prev = 0;
         streak = 0;
     }
-
-    if(diagonal_check(1))
-        return 1;
-    else if(diagonal_check(2))        
-        return 2;
 
     return 0;
 }
