@@ -160,8 +160,20 @@ void Game::display_victory_screen(uint8_t player) {
 
     wfill(win_screen, 0);
     box(win_screen, 0, 0);
-    wmove(win_screen, 1, 6);
-    wprintw(win_screen, "Player %d won!", (int)player);
+    wmove(win_screen, 1, 4);
+    wprintw(win_screen, "Player ");
+
+    if(player == 1) {
+        wattron(win_screen, COLOR_PAIR(PAIR_BLUE));
+        wprintw(win_screen, "Blue");
+        wattroff(win_screen, COLOR_PAIR(PAIR_BLUE));
+    } else if(player == 2) {
+        wattron(win_screen, COLOR_PAIR(PAIR_ORANGE));
+        wprintw(win_screen, "Orange");
+        wattroff(win_screen, COLOR_PAIR(PAIR_ORANGE));
+    }
+    wattron(win_screen, COLOR_PAIR(PAIR_DEFAULT));
+    wprintw(win_screen, " won!");
     
     wmove(win_screen, 4, 6);
     wprintw(win_screen, "Press any key");
