@@ -97,7 +97,7 @@ W projekcie wykorzystano następujące dodatkowe biblioteki:
 
 W projekcie utworzono następujące klasy:
 \begin{itemize}
-    \item Menu
+    \item \texttt{Menu} - klasa reprezentująca menu główne programu
         \begin{itemize}
             \item \texttt{Menu()}
             \item \texttt{void Draw()}
@@ -109,16 +109,17 @@ W projekcie utworzono następujące klasy:
             \item \texttt{void prev\_option()}
         \end{itemize}
 
-    \item Game
+    \item \texttt{Game} - klasa reprezentująca stan i właściwy przebieg rogrywki
         \begin{itemize}
             \item \texttt{void Game()}
             \item \texttt{void Start()}
             \item \texttt{void Loop()}
         \end{itemize}
 
-    \item Board
+    \item \texttt{Board} - klasa reprezentująca planszę do gry
         \begin{itemize}
-            \item \texttt{Board()}
+            \item \texttt{Board()} - domyślny konstruktor, ustawiający domyślne parametry
+            \item \texttt{Board(uint8\_t board\_rows, uint8\_t board\_columns)} - konstruktor parametryczny ustawia rozmiar planszy na \texttt{board\_rows} $\times$ \texttt{board\_rows}
             \item \texttt{get\_columns()}
             \item \texttt{get\_rows()}
         \end{itemize}
