@@ -54,7 +54,7 @@ void Game::draw_board() {
     uint32_t board_height = board.get_rows() * (cell_height + 1);
 
     uint32_t horizontal_offset = (board_win_width  - board_width ) / 2;
-    uint32_t vertical_offset   = (board_win_height - board_height) / 2;
+    uint32_t vertical_offset = 3;
 
     // Placing color-rendered rectangles on the board according to player
     for(uint32_t row = 0; row < board.get_rows(); row++)
@@ -160,7 +160,7 @@ void Game::display_victory_screen(uint8_t player) {
 
     wfill(win_screen, 0);
     box(win_screen, 0, 0);
-    wmove(win_screen, 1, 4);
+    wmove(win_screen, 2, 4);
     wprintw(win_screen, "Player ");
 
     if(player == 1) {

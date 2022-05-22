@@ -6,12 +6,6 @@
 #include "menu.h"
 #include "extras.h"
 
-
-enum PlayerTurn {
-    player1 = 1,
-    player2 = 2
-};
-
 struct Colors {
     int player1 = 0;
     int player2 = 0;

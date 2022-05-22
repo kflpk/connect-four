@@ -149,17 +149,15 @@ void Menu::key_handler() {
         case ' ': //spacebar
             switch(current_button) {
                 case play:
-                    // TODO: play
-                    // game.Loop();
                     state = active;
                     break;
 
                 case load_game:
-                    //load game
+                    // TODO: load game
                     break;
 
                 case options:
-                    //options
+                    // TODO: options
                     break;
 
                 case quit:

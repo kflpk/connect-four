@@ -51,6 +51,8 @@ void Board::clear() {
 }
 
 bool Board::diagonal_check(uint8_t player) {
+    // Diagonal line detection, returns if 'player' has a correct number of chips in line
+
     uint16_t streak = 0;
 
     // top-left to bottom-right diagonal detection
@@ -83,8 +85,6 @@ bool Board::diagonal_check(uint8_t player) {
 }
 
 uint8_t Board::check_victory() { 
-    // TODO: add diagonal victory reckognition
-    // TODO: save coordinates of the winning chips
     uint16_t streak = 0;
     uint16_t prev = 0;
 
@@ -93,7 +93,8 @@ uint8_t Board::check_victory() {
     else if(diagonal_check(2))        
         return 2;
 
-    for(uint16_t row = 0; row < this->rows; row++) { // Detecting horizontal lines
+    // Horizontal line detection
+    for(uint16_t row = 0; row < this->rows; row++) {
         for(uint16_t col = 0; col < this->columns; col++) {
             if(prev == (*this)[row][col] && (*this)[row][col] != 0)  {
                 streak++;
@@ -104,7 +105,6 @@ uint8_t Board::check_victory() {
             }
 
             if(streak == victory_condition) {
-                // TODO: save winning tokens' coordinates to a vector for drawing
                 return prev;
             }
         }
@@ -112,6 +112,7 @@ uint8_t Board::check_victory() {
         streak = 0;
     }
 
+    // Vertical line detection
     for(uint16_t col = 0; col < this->columns; col++) {
         for(uint16_t row = 0; row < this->rows; row++) {
             if(prev == (*this)[row][col] && (*this)[row][col] != 0)  {
@@ -133,6 +134,7 @@ uint8_t Board::check_victory() {
     return 0;
 }
 
+// A function for debbuging purposes printing board content in plain text to stdout
 void Board::printbrd() {
     for(uint16_t i = 0; i < rows; i++) {
         for(uint16_t j = 0; j < columns; j++) {

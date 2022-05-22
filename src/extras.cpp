@@ -17,7 +17,7 @@ void wfill(WINDOW* win, char c) {
 
 void init_theme() {
     init_color(COLOR_ORANGE,     900, 600,   0);
-    init_color(COLOR_FRAME,      750, 750, 750);
+    init_color(COLOR_FRAME,      350, 350, 350);
     init_color(COLOR_BACKGROUND, 150, 150, 150);
 
     init_pair(PAIR_BLUE,    COLOR_BLUE,   COLOR_BACKGROUND);
