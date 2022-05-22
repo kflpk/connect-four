@@ -104,10 +104,6 @@ void Game::draw_indicators() {
     wattron(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
     wfill(indicators_win, 0);
     wborder(indicators_win, 0, 0, 0, 0, 0, 0, ACS_LTEE, ACS_RTEE);
-    wmove(indicators_win, 1, 1);
-    wprintw(indicators_win, "Columns: %i", focused_column);
-
-
 
     uint16_t indicators_win_width;
     uint16_t indicators_win_height;
@@ -128,7 +124,18 @@ void Game::draw_indicators() {
         wprintw(indicators_win, "[%c]", col == focused_column ? 'v' : ' ');
     }
 
+    mvwprintw(indicators_win, _ind_ver_off + 2, (indicators_win_width - 22) / 2, "Current player: ");
+
     wattroff(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
+
+    if(current_player == 1) {
+        wattron(indicators_win, COLOR_PAIR(PAIR_BLUE));
+        mvwprintw(indicators_win, _ind_ver_off + 2, (indicators_win_width - 22) / 2 + 16, "Blue");
+    }
+    else if(current_player == 2) {
+        wattron(indicators_win, COLOR_PAIR(PAIR_ORANGE));
+        mvwprintw(indicators_win, _ind_ver_off + 2, (indicators_win_width - 22) / 2 + 16, "Orange");
+    }
 }
 
 void Game::next_column() {
@@ -165,15 +172,12 @@ void Game::display_victory_screen(uint8_t player) {
     wrefresh(win_screen);
 
     getch();
-    exit(0);
-    //exit(0);
 }
 
 void Game::key_handler() {
     int key;
     keypad(indicators_win, true);
     key = wgetch(indicators_win);
-    uint8_t winner;
     
     switch(key) {
         case KEY_LEFT:
@@ -212,6 +216,7 @@ void Game::Loop() {
         if(uint8_t winner = board.check_victory()) {
             draw_board();
             display_victory_screen(winner);
+            break;
         }
     }
 }

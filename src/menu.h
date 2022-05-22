@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <cinttypes>
 #include <ncurses.h>
+#include "extras.h"
 
 enum Buttons : uint8_t {
     play,
@@ -22,18 +23,12 @@ enum Options : uint8_t {
     option_color2,
 };
 
-struct GameParameters {
-    uint16_t witdh;
-    uint16_t height;
-    
-    uint8_t player1_color;
-    uint8_t player2_color;
-};
 
 class Menu {
     private:
         std::map<Buttons, std::string> button_labels;
         Buttons current_button;
+        GameState state;
 
         int width, height;
         struct {
@@ -44,6 +39,7 @@ class Menu {
 
         WINDOW* title;
         WINDOW* content;
+
 
         // functions for drawing
         //bool is_frame(uint16_t row, uint16_t col);
@@ -60,7 +56,6 @@ class Menu {
         void Draw();
         void Update();
         void Start();
-        void Loop();
         void key_handler();
         void next_option();
         void prev_option();

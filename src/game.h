@@ -4,12 +4,8 @@
 #include <ncurses.h>
 #include "board.h"
 #include "menu.h"
+#include "extras.h"
 
-enum GameState {
-    active,
-    paused,
-    menu
-};
 
 enum PlayerTurn {
     player1 = 1,

@@ -97,6 +97,7 @@ Menu::Menu() {
     button_labels[quit] = "Quit game";
 
     current_button = play;
+    state = menu;
 
     set_parameters();
 }
@@ -106,7 +107,10 @@ void Menu::Start() {
     draw_logo();
     draw_content();
 
-    Loop();
+    while(state == menu) {
+        key_handler();
+        draw_content();
+    }
 }
 
 void Menu::next_option() {
@@ -146,6 +150,8 @@ void Menu::key_handler() {
             switch(current_button) {
                 case play:
                     // TODO: play
+                    // game.Loop();
+                    state = active;
                     break;
 
                 case load_game:
@@ -165,12 +171,5 @@ void Menu::key_handler() {
         case '\e':  //ESC key
             exit(0);
             break;
-    }
-}
-
-void Menu::Loop() {
-    while(true) {
-        key_handler();
-        draw_content();
     }
 }
