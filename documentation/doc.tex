@@ -102,18 +102,17 @@ W projekcie utworzono następujące klasy:
             \item \texttt{Menu()}
             \item \texttt{void Draw()}
             \item \texttt{void Update()}
-            \item \texttt{void Start()}
-            \item \texttt{void Loop()}
-            \item \texttt{void key\_handler()}
-            \item \texttt{void next\_option()}
-            \item \texttt{void prev\_option()}
+            \item \texttt{void Start()} - rozpoczyna pętlę klasy \texttt{Menu}
+            \item \texttt{void key\_handler()} - funkcja obsługująca inputy od użytkownika w menu głównym
+            \item \texttt{void next\_option()} - ustawia następną opcję w menu
+            \item \texttt{void prev\_option()} - ustawia poprzednią opcję w menu
         \end{itemize}
 
     \item \texttt{Game} - klasa reprezentująca stan i właściwy przebieg rogrywki
         \begin{itemize}
-            \item \texttt{void Game()}
-            \item \texttt{void Start()}
-            \item \texttt{void Loop()}
+            \item \texttt{void Game()} - domyślny konstruktor klasy \texttt{Game}
+            \item \texttt{void Start()} - ustawia parametry i rozpoczyna pętlę gry
+            \item \texttt{void Loop()} - do wyrzucenia
         \end{itemize}
 
     \item \texttt{Board} - klasa reprezentująca planszę do gry
