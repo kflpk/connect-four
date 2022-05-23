@@ -4,13 +4,23 @@
 \usepackage{polski}
 % \usepackage{lmodern}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
-\usepackage[a4paper]{geometry}
+\usepackage[a4paper, margin={2.54cm, 1.54cm}]{geometry}
 \usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{titling}
 
 % # TODO: Add a stylised code block for use in code snippets and function names
 % # TODO: Stylise the page with 'geometry' package
 % # TODO: Make a title page for the document
 % # TODO: Format the style of the document
+
+\titleformat{\section}
+{\LARGE \bfseries}
+{\thesection.}
+{0.5em}
+{}[\titlerule]
+
+
 
 \graphicspath{ {./img/} }
 
@@ -51,6 +61,13 @@ Po włączeniu programu wyświetla się menu główne z następującymi opcjami:
     \item Load game - umożliwia wczytanie pliku z zapisem gry
     \item Options - otwiera menu umożliwiające zmianę ustawień gry
     \item Quit game - wychodzi z programu
+\end{itemize}
+
+Wciśnięcie klawisza Escape spowoduje pauzę w grze i wyświetlenie się menu z następującymi opcjami:
+\begin{itemize}
+    \item Resume - wznawia przebieg gry (alternatywnie można ponownie wcisnąć Escape)
+    \item Save game - zapisuje stan gry do pliku
+    \item Main menu - kończy grę i przechodzi do głównego menu bez zapisu
 \end{itemize}
 
 Wybranie "Load game" wyświetla użytkownikowi pole tekstowe, do którego należy wpisać nazwę pliku z zapisem gry. W przypadku błędu w odczycie pliku, wyświetli się komunikat powiadamiający o wystąpieniu błędu.
@@ -96,7 +113,7 @@ Projekt składa się z następujących plików źródłowych:
     \item \texttt{board.h}, \texttt{board.cpp} – deklaracja oraz implementacja klasy Board,
     \item \texttt{game.h}, \texttt{game.cpp} – deklaracja oraz implementacja klasy Game,
     \item \texttt{menu.h}, \texttt{menu.cpp} – deklaracja oraz implementacja klasy Menu.
-    \item \texttt{extras.h}, extras.cpp – deklaracja oraz implementacja funkcji pomocniczych.
+    \item \texttt{extras.h}, \texttt{extras.cpp} – deklaracja oraz implementacja funkcji pomocniczych.
     \item \texttt{color.h} – definicje procesora nazw kolorów do użycia w funkcjach biblioteki ncurses.
     \item \texttt{main.cpp} – główny plik z implementacją funkcji main.
     \end{itemize}
