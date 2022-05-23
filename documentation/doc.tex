@@ -21,7 +21,6 @@
 \setFaculty{Elektronika I}
 \setReviewer{Rafał Frączek}
 \setSupervisor{Rafał Frączek}
-\setMajor{Dupa}
 
 \title{Connect Four}
 \author{Kacper Filipek}
@@ -45,6 +44,23 @@ Projekt jest realizcją gry w "Czwórki" (ang. "Connect Four") w C++, z interfej
 The project is a realisation of the game "Connect Four" made in C++ with TUI interface (an interface using special characters for drawing UI in the terminal)
 
 \section{Instrukcja użytkownika}
+
+Po włączeniu programu wyświetla się menu główne z następującymi opcjami:
+\begin{itemize}
+    \item Play - rozpoczyna grę w bieżącymi ustawieniami
+    \item Load game - umożliwia wczytanie pliku z zapisem gry
+    \item Options - otwiera menu umożliwiające zmianę ustawień gry
+    \item Quit game - wychodzi z programu
+\end{itemize}
+
+Wybranie "Load game" wyświetla użytkownikowi pole tekstowe, do którego należy wpisać nazwę pliku z zapisem gry. W przypadku błędu w odczycie pliku, wyświetli się komunikat powiadamiający o wystąpieniu błędu.
+
+W menu "Options" można zmienić następujące parametry:
+\begin{itemize}
+    \item Board width - szerokość planszy do gry (domyślnie 7)
+    \item Board height - wysokość planszy do gry (domyślnie 5)
+    \item Victory condition - liczba żetonów w sekwencji potrzebna do wygrania gry (domyślnie 4)
+\end{itemize}
 
 \section{Kompilacja}
 
@@ -119,8 +135,8 @@ W projekcie utworzono następujące klasy:
         \begin{itemize}
             \item \texttt{Board()} - domyślny konstruktor, ustawiający domyślne parametry
             \item \texttt{Board(uint8\_t board\_rows, uint8\_t board\_columns)} - konstruktor parametryczny ustawia rozmiar planszy na \texttt{board\_rows} $\times$ \texttt{board\_rows}
-            \item \texttt{get\_columns()}
-            \item \texttt{get\_rows()}
+            \item \texttt{get\_columns()} - zwraca liczbę kolumn planszy
+            \item \texttt{get\_rows()} - zwraca liczbę wierszy planszy
         \end{itemize}
 \end{itemize}
      
