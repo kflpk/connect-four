@@ -143,17 +143,18 @@ W projekcie utworzono następujące klasy:
 
     \item \texttt{Game} - klasa reprezentująca stan i właściwy przebieg rogrywki
         \begin{itemize}
-            \item \texttt{void Game()} - domyślny konstruktor klasy \texttt{Game}
+            \item \texttt{Game()} - domyślny konstruktor klasy \texttt{Game}
             \item \texttt{void Start()} - ustawia parametry i rozpoczyna pętlę gry
-            \item \texttt{void Loop()} - do wyrzucenia
+            \item \texttt{void set\_parameters(GameParameters parameters)} - ustawia parametry gry na podstawie podanego argumentu
         \end{itemize}
 
     \item \texttt{Board} - klasa reprezentująca planszę do gry
         \begin{itemize}
             \item \texttt{Board()} - domyślny konstruktor, ustawiający domyślne parametry
             \item \texttt{Board(uint8\_t board\_rows, uint8\_t board\_columns)} - konstruktor parametryczny ustawia rozmiar planszy na \texttt{board\_rows} $\times$ \texttt{board\_rows}
-            \item \texttt{get\_columns()} - zwraca liczbę kolumn planszy
-            \item \texttt{get\_rows()} - zwraca liczbę wierszy planszy
+            \item \texttt{uint16\_t get\_columns()} - zwraca liczbę kolumn planszy
+            \item \texttt{uint16\_t get\_rows()} - zwraca liczbę wierszy planszy
+            \item \texttt{void set\_dimensions(uint16\_t rows, uint16\_t columns)} - ustawia wymiary planszy
         \end{itemize}
 \end{itemize}
      
