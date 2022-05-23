@@ -42,5 +42,4 @@ class Game {
     public:
         Game();
         void Start();
-        void Loop();
 };

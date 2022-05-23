@@ -19,7 +19,7 @@ int main() {
 
     Game game;
     game.set_parameters(params);
-    game.Loop();
+    game.Start();
 
     cleanup();
 }

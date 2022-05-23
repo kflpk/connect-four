@@ -219,7 +219,7 @@ void Game::key_handler() {
     }
 }
 
-void Game::Loop() {
+void Game::Start() {
     while(true) {
         draw_frame();
         draw_indicators();
