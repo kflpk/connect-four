@@ -1,4 +1,5 @@
 
+#include <map>
 #include "color.h"
 #include "game.h"
 #include "extras.h"
@@ -8,15 +9,26 @@ Game::Game() {
 }
 
 void Game::set_parameters(GameParameters parameters) {
+    // indicator window dimensions
     uint16_t _ind_height = 7;
 
+    // pause window dimensions
+    uint32_t pause_width = 17;
+    uint32_t pause_height = 10;
+
+    uint32_t pause_horizontal_offset = (width - pause_width) / 2;
+    uint32_t pause_vertical_offset = (height - pause_height) / 2;
+
+    // window initializations
     indicators_win = newwin(_ind_height, width, 0, 0);
     board_win = newwin(height - _ind_height + 1, width, _ind_height - 1, 0);
+    pause_win = newwin(pause_height, pause_width, pause_vertical_offset, pause_horizontal_offset);
 
     player_colors.player1 = parameters.player1_color;
     player_colors.player2 = parameters.player2_color;
 
-    focused_column = 0;
+    focused_column = board.get_columns() / 2;
+    state = active;
 }
 
 void Game::switch_player() {
@@ -138,6 +150,36 @@ void Game::draw_indicators() {
     }
 }
 
+void Game::draw_pause() {
+    std::map<PauseButtons, std::string> labels;
+
+    labels[pause_resume] = "Resume";
+    labels[pause_save]   = "Save game";
+    labels[pause_quit]   = "Main menu";
+
+    uint32_t left_offset = 2;
+    uint32_t top_offset  = 3;
+
+    wattron(pause_win, COLOR_PAIR(PAIR_DEFAULT));
+    wfill(pause_win, 0);
+    box(pause_win, 0, 0);
+    wmove(pause_win, 1, 3);
+    wprintw(pause_win, "Game paused");
+
+
+    for(int button = play; button != pause_last; button++) {
+        wmove(pause_win, top_offset + 2 * button, left_offset);
+        wprintw(pause_win, "[%c] %s", ((PauseButtons)button == current_button) ? 'x' : ' ',
+        labels[(PauseButtons)button].c_str());
+    }
+
+    wattroff(pause_win, COLOR_PAIR(PAIR_DEFAULT));
+
+
+    wrefresh(indicators_win); // ugly bug-fix, because indicators window would disappear in the pause menu
+    wrefresh(pause_win);
+}
+
 void Game::next_column() {
     if(focused_column < board.get_columns() - 1) {
         focused_column++;
@@ -186,36 +228,97 @@ void Game::display_victory_screen(uint8_t player) {
     getch();
 }
 
+void Game::next_option() {
+    uint8_t button = (uint8_t)current_button;
+    if (current_button + 1 != (uint8_t)pause_last)
+        button++;
+    current_button = (PauseButtons)button;
+}
+
+void Game::prev_option() {
+    uint8_t button = (uint8_t)current_button;
+    if (current_button != (uint8_t)pause_resume)
+        button--;
+    current_button = (PauseButtons)button;
+}
+
 void Game::key_handler() {
     int key;
-    keypad(indicators_win, true);
-    key = wgetch(indicators_win);
+
+    if(state == active) {
+        keypad(indicators_win, true);
+        key = wgetch(indicators_win);
     
-    switch(key) {
-        case KEY_LEFT:
-        case KEY_UP:
-        case 'k':
-        case 'h':
-            prev_column();
-            break;
+    
+        switch(key) {
+            case KEY_LEFT:
+            case KEY_UP:
+            case 'k':
+            case 'h':
+                prev_column();
+                break;
 
-        case KEY_RIGHT:
-        case KEY_DOWN:
-        case 'j':
-        case 'l':
-            next_column();
-            break;
+            case KEY_RIGHT:
+            case KEY_DOWN:
+            case 'j':
+            case 'l':
+                next_column();
+                break;
 
-        case '\n': //enter key (for some reason KEY_ENTER didn't work)
-        case ' ': //spacebar
-            if(board.drop_chip(focused_column, current_player)) {
-                switch_player();
-            }
-            break;
+            case '\n': //enter key (for some reason KEY_ENTER didn't work)
+            case ' ': //spacebar
+                if(board.drop_chip(focused_column, current_player)) {
+                    switch_player();
+                }
+                break;
 
-        case '\e':  //ESC key
-            exit(0);
-            break;
+            case '\e':  //ESC key
+            case  'p':
+                state = paused;
+                current_button = pause_resume;
+                break;
+        }
+    } else if(state == paused) {
+        keypad(pause_win, true);
+        key = wgetch(pause_win);
+
+        switch(key) {
+            case KEY_LEFT:
+            case KEY_UP:
+            case 'k':
+                prev_option();
+                break;
+
+            case KEY_RIGHT:
+            case KEY_DOWN:
+            case 'j':
+                next_option();
+                break;
+
+            case '\n': //enter key (for some reason KEY_ENTER didn't work)
+            case ' ': //spacebar
+                switch(current_button) {
+                    case pause_resume:
+                        state = active;
+                        break;
+
+                    case pause_save:
+                        // TODO: load game
+                        break;
+
+                    case pause_quit:
+                        exit(0);
+                        break;
+                    case pause_last:
+                    break;
+                }
+                break;
+
+            case '\e':  //ESC key
+            case  'p':
+                state = active;
+                break;
+        }
     }
 }
 
@@ -224,7 +327,13 @@ void Game::Start() {
         draw_frame();
         draw_indicators();
         draw_board();
+
+        if (state == paused) {
+            draw_pause();
+        }
+
         key_handler();
+
         if(uint8_t winner = board.check_victory()) {
             draw_board();
             display_victory_screen(winner);

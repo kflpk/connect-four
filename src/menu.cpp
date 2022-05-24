@@ -163,6 +163,8 @@ void Menu::key_handler() {
                 case quit:
                     exit(0);
                     break;
+                case _last:
+                    break;
             }
             break;
 
