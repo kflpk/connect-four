@@ -1,0 +1,8 @@
+#!/bin/bash
+
+rm Kacper_Filipek.zip
+zip -r Kacper_Filipek.zip assets src bld.sh CMakeLists.txt
+zip -u Kacper_Filipek.zip build
+zip -u -r Kacper_Filipek.zip documentation/doc.pdf
+zip -u -r Kacper_Filipek.zip documentation/tex
+zip -u -r Kacper_Filipek.zip documentation/img 

@@ -14,8 +14,6 @@ int main() {
     menu.Start();
 
     GameParameters params;
-    params.height = 20; 
-    params.width = 20; 
 
     Game game;
     game.set_parameters(params);

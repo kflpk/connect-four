@@ -24,6 +24,12 @@ void Game::set_parameters(GameParameters parameters) {
     board_win = newwin(height - _ind_height + 1, width, _ind_height - 1, 0);
     pause_win = newwin(pause_height, pause_width, pause_vertical_offset, pause_horizontal_offset);
 
+    if(parameters.rows != 0 && parameters.columns != 0) 
+        board.set_dimensions(parameters.rows, parameters.columns);
+
+    if(parameters.victory_condition != 0)
+        board.set_victory_condition(parameters.victory_condition);
+
     player_colors.player1 = parameters.player1_color;
     player_colors.player2 = parameters.player2_color;
 

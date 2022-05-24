@@ -17,8 +17,10 @@ enum Buttons : uint8_t {
 };
 
 enum Options : uint8_t {
-    option_width,
-    option_height,
+    option_rows,
+    option_cols,
+    option_win,
+    option_end,
     option_color1,
     option_color2,
 };
@@ -27,7 +29,9 @@ enum Options : uint8_t {
 class Menu {
     private:
         std::map<Buttons, std::string> button_labels;
+        std::map<Options, std::string> option_labels;
         Buttons current_button;
+        Options current_option;
         GameState state;
 
         int width, height;

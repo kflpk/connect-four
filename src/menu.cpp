@@ -67,10 +67,19 @@ void Menu::draw_content() {
     wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
 
     wattron(content, COLOR_PAIR(PAIR_DEFAULT));
-    for(int button = play; button != _last; button++) {
-        wmove(content, top_offset + 2 * button, left_offset);
-        wprintw(content, "[%c] %s", ((Buttons)button == current_button) ? 'x' : ' ',
-        button_labels[(Buttons)button].c_str());
+    if(state == menu) {
+        for(int button = play; button != _last; button++) {
+            wmove(content, top_offset + 2 * button, left_offset);
+            wprintw(content, "[%c] %s", ((Buttons)button == current_button) ? 'x' : ' ',
+            button_labels[(Buttons)button].c_str());
+        }
+    } else if(state == menu_options) {
+        for(int option = option_rows; option != option_end; option++) {
+            wmove(content, top_offset + 2 * option, left_offset);
+            wprintw(content, "[%c] %s", ((Options)option == current_option) ? 'x' : ' ',
+            option_labels[(Options)option].c_str());
+        }
+
     }
     wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
 
@@ -96,7 +105,12 @@ Menu::Menu() {
     button_labels[load_game] = "Load game";
     button_labels[quit] = "Quit game";
 
+    option_labels[option_rows] = "Rows";
+    option_labels[option_cols] = "Columns";
+    option_labels[option_win]  = "Win condition";
+
     current_button = play;
+    current_option = option_rows;
     state = menu;
 
     set_parameters();
@@ -162,8 +176,6 @@ void Menu::key_handler() {
 
                 case quit:
                     exit(0);
-                    break;
-                case _last:
                     break;
             }
             break;

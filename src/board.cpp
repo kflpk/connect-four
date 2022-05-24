@@ -31,6 +31,20 @@ Board::Board() {
 uint16_t Board::get_columns(void) { return columns; }
 uint16_t Board::get_rows(void) { return rows; }
 
+// setters
+void Board::set_dimensions(uint16_t rows, uint16_t columns) {
+    this->columns = columns;
+    this->rows = rows;
+
+    content.resize(rows * columns);
+
+    (*this).clear();
+}
+
+void Board::set_victory_condition(uint16_t condition) {
+    this->victory_condition = condition;
+}
+
 bool Board::drop_chip(uint16_t col, uint8_t player) {
     if(col > this->columns)
         return false;
