@@ -16,22 +16,22 @@ enum Buttons : uint8_t {
     _last
 };
 
-enum Options : uint8_t {
-    option_rows,
-    option_cols,
-    option_win,
-    option_end,
-    option_color1,
-    option_color2,
+enum Settings : uint8_t {
+    setting_rows,
+    setting_cols,
+    setting_win,
+    setting_end,
+    setting_color1,
+    setting_color2,
 };
 
 
 class Menu {
     private:
         std::map<Buttons, std::string> button_labels;
-        std::map<Options, std::string> option_labels;
+        std::map<Settings, std::string> setting_labels;
         Buttons current_button;
-        Options current_option;
+        Settings current_setting;
         GameState state;
 
         int width, height;
@@ -44,23 +44,25 @@ class Menu {
         WINDOW* title;
         WINDOW* content;
 
+        // =========================
+        // | Function declarations |
+        // =========================
 
-        // functions for drawing
-        //bool is_frame(uint16_t row, uint16_t col);
-        void fill_screen();
-        void draw_logo();
-        void draw_frame();
-        void draw_content();
-        void set_parameters();
-        //   ^ sets parameters for drawing based i.e. line width,
-        //     element spacing based on window size
+        // Functions for controlling program flow
+        void key_handler(); // Function handling keystrokes
+        void next_item(); // Selects next item from the menu
+        void prev_item(); // Selects previous item from the menu
+        void setting_increment(); // Increments a value in Settings menu
+        void setting_decrement(); // Decrements a value in Settings menu
+        void set_parameters(); 
+        /*   ^ sets parameters for drawing based i.e. line width,
+               element spacing based on window size */
+
+        // Functions for drawing
+        void draw_logo(); // Draws "Connect Four" logo in the main menu
+        void draw_content(); // Draws menu items and selection indicators
 
     public:
-        Menu();
-        void Draw();
-        void Update();
-        void Start();
-        void key_handler();
-        void next_option();
-        void prev_option();
+        Menu(); // Default constructor of Menu class
+        void Start(); // Starts the main menu
 };

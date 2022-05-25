@@ -73,11 +73,11 @@ void Menu::draw_content() {
             wprintw(content, "[%c] %s", ((Buttons)button == current_button) ? 'x' : ' ',
             button_labels[(Buttons)button].c_str());
         }
-    } else if(state == menu_options) {
-        for(int option = option_rows; option != option_end; option++) {
+    } else if(state == menu_settings) {
+        for(int option = setting_rows; option != setting_end; option++) {
             wmove(content, top_offset + 2 * option, left_offset);
-            wprintw(content, "[%c] %s", ((Options)option == current_option) ? 'x' : ' ',
-            option_labels[(Options)option].c_str());
+            wprintw(content, "[%c] %s", ((Settings)option == current_setting) ? 'x' : ' ',
+            setting_labels[(Settings)option].c_str());
         }
 
     }
@@ -101,16 +101,16 @@ void Menu::set_parameters() {
 
 Menu::Menu() {
     button_labels[play] = "Play";
-    button_labels[options] = "Options";
+    button_labels[options] = "Settings";
     button_labels[load_game] = "Load game";
     button_labels[quit] = "Quit game";
 
-    option_labels[option_rows] = "Rows";
-    option_labels[option_cols] = "Columns";
-    option_labels[option_win]  = "Win condition";
+    setting_labels[setting_rows] = "Rows";
+    setting_labels[setting_cols] = "Columns";
+    setting_labels[setting_win]  = "Win condition";
 
     current_button = play;
-    current_option = option_rows;
+    current_setting = setting_rows;
     state = menu;
 
     set_parameters();
@@ -127,18 +127,26 @@ void Menu::Start() {
     }
 }
 
-void Menu::next_option() {
+void Menu::next_item() {
     uint8_t button = (uint8_t)current_button;
     if (current_button + 1 != (uint8_t)_last)
         button++;
     current_button = (Buttons)button;
 }
 
-void Menu::prev_option() {
+void Menu::prev_item() {
     uint8_t button = (uint8_t)current_button;
     if (current_button != (uint8_t)play)
         button--;
     current_button = (Buttons)button;
+}
+
+void Menu::setting_increment() {
+
+}
+
+void Menu::setting_decrement() {
+
 }
 
 void Menu::key_handler() {
@@ -147,16 +155,20 @@ void Menu::key_handler() {
     key = wgetch(content);
     
     switch(key) {
-        case KEY_LEFT:
         case KEY_UP:
-        case 'k':
-            prev_option();
+            prev_item();
+            break;
+
+        case KEY_DOWN:
+            next_item();
             break;
 
         case KEY_RIGHT:
-        case KEY_DOWN:
-        case 'j':
-            next_option();
+            setting_increment();
+            break;
+
+        case KEY_LEFT:
+            setting_decrement();
             break;
 
         case '\n': //enter key (for some reason KEY_ENTER didn't work)

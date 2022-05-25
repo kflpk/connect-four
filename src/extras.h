@@ -24,5 +24,5 @@ enum GameState {
     active,
     paused,
     menu,
-    menu_options
+    menu_settings
 };
