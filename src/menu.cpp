@@ -121,24 +121,40 @@ void Menu::Start() {
     draw_logo();
     draw_content();
 
-    while(state == menu) {
+    while(state == menu || state == menu_settings) {
         key_handler();
         draw_content();
     }
 }
 
 void Menu::next_item() {
+    if(state == menu) {
     uint8_t button = (uint8_t)current_button;
     if (current_button + 1 != (uint8_t)_last)
         button++;
     current_button = (Buttons)button;
+    } else if(state == menu_settings) {
+    uint8_t setting = (uint8_t)current_setting;
+    if (current_setting + 1 != (uint8_t)setting_end)
+        setting++;
+    current_setting = (Settings)setting;
+
+    }
 }
 
 void Menu::prev_item() {
+    if(state == menu) {
     uint8_t button = (uint8_t)current_button;
     if (current_button != (uint8_t)play)
         button--;
     current_button = (Buttons)button;
+    } else if(state == menu_settings) {
+    uint8_t setting = (uint8_t)current_setting;
+    if (current_setting != (uint8_t)setting_rows)
+        setting--;
+    current_setting = (Settings)setting;
+
+    }
 }
 
 void Menu::setting_increment() {
@@ -183,7 +199,7 @@ void Menu::key_handler() {
                     break;
 
                 case options:
-                    // TODO: options
+                    state = menu_settings;
                     break;
 
                 case quit:
@@ -193,7 +209,14 @@ void Menu::key_handler() {
             break;
 
         case '\e':  //ESC key
-            exit(0);
+            if(state == menu_settings)
+                state = menu;
+            else
+                exit(0);
+            break;
+        case KEY_BACKSPACE:
+            if(state == menu_settings)
+                state = menu;
             break;
     }
 }
