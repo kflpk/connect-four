@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16.3)
 
 project(connect-four)
 
-set(WARNINGS -Wall -Wextra -pedantic -Wshadow -Wno-pragma-once-outside-header -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual -pedantic -Weverything)
+set(WARNINGS -Wall -Wextra -pedantic -Wshadow -Wno-pragma-once-outside-header -Wfloat-equal -Wundef -Wcast-align -Wwrite-strings -Wmissing-declarations -Wredundant-decls -Wshadow -Woverloaded-virtual -pedantic -Weverything -Wswitch)
 
 add_executable(${PROJECT_NAME} src/main.cpp src/board.cpp src/extras.cpp src/game.cpp src/menu.cpp)
 

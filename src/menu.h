@@ -68,5 +68,5 @@ class Menu {
 
     public:
         Menu(); // Default constructor of Menu class
-        void Start(); // Starts the main menu
+        GameParameters Start(); // Starts the main menu
 };

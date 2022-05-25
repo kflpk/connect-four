@@ -11,9 +11,8 @@ int main() {
     startup();
 
     Menu menu;
-    menu.Start();
 
-    GameParameters params;
+    GameParameters params = menu.Start();
 
     Game game;
     game.set_parameters(params);

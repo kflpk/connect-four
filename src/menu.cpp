@@ -89,6 +89,8 @@ void Menu::draw_content() {
                     case setting_win:
                         wprintw(content, "%02d", temp_perameters.victory_condition);
                         break;
+                    default:
+                        break;
                 }
                 waddch(content, current_setting == (Settings)setting ? ACS_RARROW : ' ');
             }
@@ -136,7 +138,7 @@ Menu::Menu() {
     set_parameters();
 }
 
-void Menu::Start() {
+GameParameters Menu::Start() {
     refresh();
     draw_logo();
     draw_content();
@@ -145,6 +147,8 @@ void Menu::Start() {
         key_handler();
         draw_content();
     }
+
+    return parameters;
 }
 
 void Menu::next_item() {
