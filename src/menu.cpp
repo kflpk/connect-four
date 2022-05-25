@@ -74,10 +74,28 @@ void Menu::draw_content() {
             button_labels[(Buttons)button].c_str());
         }
     } else if(state == menu_settings) {
-        for(int option = setting_rows; option != setting_end; option++) {
-            wmove(content, top_offset + 2 * option, left_offset);
-            wprintw(content, "[%c] %s", ((Settings)option == current_setting) ? 'x' : ' ',
-            setting_labels[(Settings)option].c_str());
+        for(int setting = setting_rows; setting != setting_end; setting++) {
+            wmove(content, top_offset + 2 * setting, left_offset);
+            if(setting < setting_done) {
+                wprintw(content, "%s ", setting_labels[(Settings)setting].c_str());
+                waddch(content, current_setting == (Settings)setting ? ACS_LARROW : ' ');
+                switch((Settings)setting) {
+                    case setting_rows:
+                        wprintw(content, "%02d", temp_perameters.rows);
+                            break;
+                    case setting_cols:
+                        wprintw(content, "%02d", temp_perameters.columns);
+                            break;
+                    case setting_win:
+                        wprintw(content, "%02d", temp_perameters.victory_condition);
+                        break;
+                }
+                waddch(content, current_setting == (Settings)setting ? ACS_RARROW : ' ');
+            }
+            else {
+                wprintw(content, "[%c] %s ", ((Settings)setting == current_setting) ? 'x' : ' ',
+                setting_labels[(Settings)setting].c_str());
+            }
         }
 
     }
@@ -105,9 +123,11 @@ Menu::Menu() {
     button_labels[load_game] = "Load game";
     button_labels[quit] = "Quit game";
 
-    setting_labels[setting_rows] = "Rows";
-    setting_labels[setting_cols] = "Columns";
-    setting_labels[setting_win]  = "Win condition";
+    setting_labels[setting_rows]  = "Rows         ";
+    setting_labels[setting_cols]  = "Columns      ";
+    setting_labels[setting_win]   = "Win condition";
+    setting_labels[setting_done] = "Done";
+    setting_labels[setting_back]  = "Back";
 
     current_button = play;
     current_setting = setting_rows;
@@ -158,10 +178,41 @@ void Menu::prev_item() {
 }
 
 void Menu::setting_increment() {
+    switch(current_setting) {
+        case setting_rows:
+            if(temp_perameters.rows < 100)
+                temp_perameters.rows++;
+            break;
 
+        case setting_cols:
+            if(temp_perameters.columns < 100)
+                temp_perameters.columns++;
+            break;
+
+        case setting_win:
+            if(temp_perameters.victory_condition < 100)
+                temp_perameters.victory_condition++;
+            break;
+    }
 }
 
 void Menu::setting_decrement() {
+    switch(current_setting) {
+        case setting_rows:
+            if(temp_perameters.rows > 1)
+                temp_perameters.rows--;
+            break;
+
+        case setting_cols:
+            if(temp_perameters.columns > 1)
+                temp_perameters.columns--;
+            break;
+
+        case setting_win:
+            if(temp_perameters.victory_condition > 2)
+                temp_perameters.victory_condition--;
+            break;
+    }
 
 }
 
@@ -189,23 +240,44 @@ void Menu::key_handler() {
 
         case '\n': //enter key (for some reason KEY_ENTER didn't work)
         case ' ': //spacebar
-            switch(current_button) {
-                case play:
-                    state = active;
-                    break;
+            if(state == menu) 
+                switch(current_button) {
+                    case play:
+                        state = active;
+                        break;
 
-                case load_game:
-                    // TODO: load game
-                    break;
+                    case load_game:
+                        // TODO: load game
+                        break;
 
-                case options:
-                    state = menu_settings;
-                    break;
+                    case options:
+                        temp_perameters = parameters;
+                        state = menu_settings;
+                        break;
 
-                case quit:
-                    exit(0);
-                    break;
-            }
+                    case quit:
+                        exit(0);
+                        break;
+
+                    default:
+                        break;
+                }
+
+            else if(state == menu_settings) 
+                switch(current_setting) {
+
+                    case setting_done:
+                        parameters = temp_perameters;
+                        state = menu;
+                        break;
+
+                    case setting_back:
+                        state = menu;
+                        break;
+
+                    default:
+                        break;
+                }
             break;
 
         case '\e':  //ESC key

@@ -20,6 +20,8 @@ enum Settings : uint8_t {
     setting_rows,
     setting_cols,
     setting_win,
+    setting_done,
+    setting_back,
     setting_end,
     setting_color1,
     setting_color2,
@@ -33,6 +35,8 @@ class Menu {
         Buttons current_button;
         Settings current_setting;
         GameState state;
+        GameParameters parameters;
+        GameParameters temp_perameters;
 
         int width, height;
         struct {
