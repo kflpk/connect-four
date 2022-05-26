@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage{titling}
+\usepackage{enumitem}
 
 % # TODO: Add a stylised code block for use in code snippets and function names
 % # TODO: Stylise the page with 'geometry' package
@@ -26,6 +27,8 @@
 {0.5em}
 {}[]
 
+% \renewcommand{\labelenumii}{\theenumi.\theenumii.}
+\setlist[enumerate]{label*=\arabic*.}
 
 
 \graphicspath{ {./img/} }
@@ -178,6 +181,21 @@ W projekcie wykorzystywane są następujące pliki zasobów:
 \section{Inne}
 
 \subsection{Format zapisu}
+
+Stan gry jest zapisywany do pliku w formie binarnej. Poniżej podane są po kolei bajty oznaczające konkretne parametry gry oraz ich rozmiary w pliku
+
+\begin{enumerate}
+\item Liczba graczy - 1 bajt (unsigned)
+\item Aktualny gracz - 1 bajt (unsigned)
+\item Wymiary planszy - 4 bajty (unsigned)
+  \begin{enumerate}
+    \item liczba wierszy w planszy - 2 bajty (unsigned)
+    \item liczba kolumn w planszy - 2 bajty (unsigned)
+  \end{enumerate}
+\item zawartość planszy - każdej komórce odpowiada jeden bajt, więc rozmiar tej sekcji w bajtach, to liczba kolumn $\times$ liczba wierszy (unsigned)
+\end{enumerate}
+
+Parametry większe niż jeden bajt nie mają ustalonej kolejności bajtów, w zależności od urządzenia, pliki z zapisem tego samego mogą się od siebie różnić.
 
 \end{document}
 
