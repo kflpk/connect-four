@@ -20,6 +20,12 @@
 {0.5em}
 {}[\titlerule]
 
+\titleformat{\subsection}
+{\Large \bfseries}
+{\thesubsection.}
+{0.5em}
+{}[]
+
 
 
 \graphicspath{ {./img/} }
@@ -133,12 +139,10 @@ W projekcie utworzono następujące klasy:
     \item \texttt{Menu} - klasa reprezentująca menu główne programu
         \begin{itemize}
             \item \texttt{Menu()}
-            \item \texttt{void Draw()}
-            \item \texttt{void Update()}
-            \item \texttt{void Start()} - rozpoczyna pętlę klasy \texttt{Menu}
+            \item \texttt{GameParameters Start()} - rozpoczyna pętlę klasy \texttt{Menu} i zwraca strukturę z parametrami gry po jej zakończeniu
             \item \texttt{void key\_handler()} - funkcja obsługująca inputy od użytkownika w menu głównym
-            \item \texttt{void next\_option()} - ustawia następną opcję w menu
-            \item \texttt{void prev\_option()} - ustawia poprzednią opcję w menu
+            \item \texttt{void next\_item()} - ustawia następną opcję w menu
+            \item \texttt{void prev\_item()} - ustawia poprzednią opcję w menu
         \end{itemize}
 
     \item \texttt{Game} - klasa reprezentująca stan i właściwy przebieg rogrywki
@@ -173,6 +177,7 @@ W projekcie wykorzystywane są następujące pliki zasobów:
 
 \section{Inne}
 
+\subsection{Format zapisu}
 
 \end{document}
 
