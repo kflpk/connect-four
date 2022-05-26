@@ -139,6 +139,7 @@ Menu::Menu() {
 }
 
 GameParameters Menu::Start() {
+    state = menu;
     refresh();
     draw_logo();
     draw_content();

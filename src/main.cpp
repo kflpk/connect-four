@@ -11,12 +11,14 @@ int main() {
     startup();
 
     Menu menu;
-
-    GameParameters params = menu.Start();
-
     Game game;
-    game.set_parameters(params);
-    game.Start();
+
+    while(true) {
+        GameParameters params = menu.Start();
+
+        game.set_parameters(params);
+        game.Start();
+    }
 
     cleanup();
 }

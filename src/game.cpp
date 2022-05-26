@@ -313,7 +313,7 @@ void Game::key_handler() {
                         break;
 
                     case pause_quit:
-                        exit(0);
+                        state = menu;
                         break;
                     case pause_last:
                     break;
@@ -336,6 +336,8 @@ void Game::Start() {
 
         if (state == paused) {
             draw_pause();
+        } else if(state == menu) {
+            break;
         }
 
         key_handler();
