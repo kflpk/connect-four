@@ -1,4 +1,7 @@
 #include <ncurses.h>
+#include <sstream>
+#include <iostream>
+#include "extras.h"
 #include "color.h"
 
 void wfill(WINDOW* win, char c) {
@@ -13,6 +16,45 @@ void wfill(WINDOW* win, char c) {
             mvwprintw(win, row, col, str);
         }
     }
+}
+
+std::vector<std::string> word_wrap(std::string source, int line_length) { // doesn't work yet
+    std::stringstream splitter(source);
+    std::string buffer;
+    std::vector<std::string> content;
+    std::vector<std::string> lines;
+
+    size_t bufsize;
+
+    while(splitter >> buffer) // splits the source string to strings with individual words
+        content.push_back(buffer);
+
+    for(size_t start = 0; start < content.size(); start++) {
+        buffer = content[start];
+        for(size_t word = start + 1; word < content.size(); word++) {
+            bufsize = buffer.size() + 1 + content[word].size();
+            if(bufsize < line_length) {
+                buffer += (" " + content[word]);
+            }
+            else {
+                start = word - 1;
+                lines.push_back(buffer);
+                break;
+            }
+            if(word == content.size() - 1) {
+                lines.push_back(buffer);
+                return lines;
+                break;
+            }
+        }
+    }
+
+    return lines;
+    
+}
+
+void warning(std::string warning_content) {
+
 }
 
 void init_theme() {

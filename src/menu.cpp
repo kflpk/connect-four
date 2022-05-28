@@ -198,6 +198,9 @@ void Menu::setting_increment() {
             if(temp_perameters.victory_condition < 100)
                 temp_perameters.victory_condition++;
             break;
+        
+        default: 
+            break;
     }
 }
 
@@ -216,6 +219,9 @@ void Menu::setting_decrement() {
         case setting_win:
             if(temp_perameters.victory_condition > 2)
                 temp_perameters.victory_condition--;
+            break;
+        
+        default: 
             break;
     }
 

@@ -2,6 +2,8 @@
 
 #include <ncurses.h>
 #include <cinttypes>
+#include <string>
+#include <vector>
 
 void wfill(WINDOW* win, char c); 
 /* ncurses-like function to fill a window with a char
@@ -10,6 +12,8 @@ void wfill(WINDOW* win, char c);
 void init_theme();
 void startup();
 void cleanup();
+void warning(std::string warning_content);
+std::vector<std::string> word_wrap(std::string source, int line_length);
 
 struct GameParameters {
     uint16_t rows = 5;
