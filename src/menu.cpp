@@ -82,10 +82,10 @@ void Menu::draw_content() {
                 switch((Settings)setting) {
                     case setting_rows:
                         wprintw(content, "%02d", temp_perameters.rows);
-                            break;
+                        break;
                     case setting_cols:
                         wprintw(content, "%02d", temp_perameters.columns);
-                            break;
+                        break;
                     case setting_win:
                         wprintw(content, "%02d", temp_perameters.victory_condition);
                         break;
@@ -154,31 +154,29 @@ GameParameters Menu::Start() {
 
 void Menu::next_item() {
     if(state == menu) {
-    uint8_t button = (uint8_t)current_button;
-    if (current_button + 1 != (uint8_t)_last)
-        button++;
-    current_button = (Buttons)button;
+        uint8_t button = (uint8_t)current_button;
+        if (current_button + 1 != (uint8_t)_last)
+            button++;
+        current_button = (Buttons)button;
     } else if(state == menu_settings) {
-    uint8_t setting = (uint8_t)current_setting;
-    if (current_setting + 1 != (uint8_t)setting_end)
-        setting++;
-    current_setting = (Settings)setting;
-
+        uint8_t setting = (uint8_t)current_setting;
+        if (current_setting + 1 != (uint8_t)setting_end)
+            setting++;
+        current_setting = (Settings)setting;
     }
 }
 
 void Menu::prev_item() {
     if(state == menu) {
-    uint8_t button = (uint8_t)current_button;
-    if (current_button != (uint8_t)play)
-        button--;
-    current_button = (Buttons)button;
+        uint8_t button = (uint8_t)current_button;
+        if (current_button != (uint8_t)play)
+            button--;
+        current_button = (Buttons)button;
     } else if(state == menu_settings) {
-    uint8_t setting = (uint8_t)current_setting;
-    if (current_setting != (uint8_t)setting_rows)
-        setting--;
-    current_setting = (Settings)setting;
-
+        uint8_t setting = (uint8_t)current_setting;
+        if (current_setting != (uint8_t)setting_rows)
+            setting--;
+        current_setting = (Settings)setting;
     }
 }
 
@@ -254,6 +252,7 @@ void Menu::key_handler() {
             if(state == menu) 
                 switch(current_button) {
                     case play:
+                        // warning("The window is too small to draw a board of that dimensions. Please resize the terminal window or decrease the font size and restart the game");
                         state = active;
                         break;
 
