@@ -18,43 +18,74 @@ void wfill(WINDOW* win, char c) {
     }
 }
 
-std::vector<std::string> word_wrap(std::string source, int line_length) { // doesn't work yet
-    std::stringstream splitter(source);
-    std::string buffer;
-    std::vector<std::string> content;
-    std::vector<std::string> lines;
+std::vector<std::string> word_wrap(std::string source, int line_length) {
+    std::vector<std::string> outputStrings;
+    std::istringstream iss(source);
 
-    size_t bufsize;
+    std::string line;
 
-    while(splitter >> buffer) // splits the source string to strings with individual words
-        content.push_back(buffer);
+    do
+    {
+        std::string word;
+        iss >> word;
 
-    for(size_t start = 0; start < content.size(); start++) {
-        buffer = content[start];
-        for(size_t word = start + 1; word < content.size(); word++) {
-            bufsize = buffer.size() + 1 + content[word].size();
-            if(bufsize < line_length) {
-                buffer += (" " + content[word]);
-            }
-            else {
-                start = word - 1;
-                lines.push_back(buffer);
-                break;
-            }
-            if(word == content.size() - 1) {
-                lines.push_back(buffer);
-                return lines;
-                break;
-            }
+        if (line.length() + word.length() > (size_t)line_length)
+        {
+            outputStrings.push_back(line);
+            line.clear();
         }
+        line += word + " ";
+
+    } while (iss);
+
+    if (!line.empty())
+    {
+        outputStrings.push_back(line);
     }
 
-    return lines;
-    
+    return outputStrings;
 }
 
 void warning(std::string warning_content) {
+    // return;
+    WINDOW* warning_win;
+    std::vector<std::string> lines;
 
+    int window_width;
+    int window_height;
+    int warning_width = 38;
+    int warning_height;
+
+    getmaxyx(stdscr, window_height, window_width);
+
+    lines = word_wrap(warning_content, warning_width - 4);
+    warning_height = lines.size() + 6;
+
+    int top_offset = (window_height - warning_height)/2;
+    int left_offset = (window_width - warning_width)/2;
+
+    // cleanup();
+    // std::cout << "warning" << warning_height << "x" << warning_width << std::endl;
+    // std::cout << "window" << window_height << "x" << window_width;
+    // exit(0);
+
+    warning_win = newwin(warning_height, warning_width, top_offset, left_offset);
+
+    wattron(warning_win, COLOR_PAIR(PAIR_DEFAULT));
+    wfill(warning_win, 0);
+    box(warning_win, 0, 0);
+
+    for(size_t i = 0; i < lines.size(); i++) {
+        wmove(warning_win, 2 + i, 2);
+        wprintw(warning_win, lines[i].c_str());
+    }
+
+    wmove(warning_win, lines.size() +  3, (warning_width - 29)/2);
+    wprintw(warning_win, "Press any key to continue...");
+    wattroff(warning_win, COLOR_PAIR(PAIR_DEFAULT));
+
+    wrefresh(warning_win);
+    getch();
 }
 
 void init_theme() {
@@ -70,7 +101,6 @@ void init_theme() {
     init_pair(PAIR_PLAYER2, COLOR_BLUE,   COLOR_ORANGE);
 
     curs_set(0);
-    //init_pair(PAIR_PLAYER1, COLOR_ORANGE)
 }
 
 void startup() {
