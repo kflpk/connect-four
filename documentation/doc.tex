@@ -143,9 +143,6 @@ W projekcie utworzono następujące klasy:
         \begin{itemize}
             \item \texttt{Menu()}
             \item \texttt{GameParameters Start()} - rozpoczyna pętlę klasy \texttt{Menu} i zwraca strukturę z parametrami gry po jej zakończeniu
-            \item \texttt{void key\_handler()} - funkcja obsługująca inputy od użytkownika w menu głównym
-            \item \texttt{void next\_item()} - ustawia następną opcję w menu
-            \item \texttt{void prev\_item()} - ustawia poprzednią opcję w menu
         \end{itemize}
 
     \item \texttt{Game} - klasa reprezentująca stan i właściwy przebieg rogrywki
@@ -153,6 +150,7 @@ W projekcie utworzono następujące klasy:
             \item \texttt{Game()} - domyślny konstruktor klasy \texttt{Game}
             \item \texttt{void Start()} - ustawia parametry i rozpoczyna pętlę gry
             \item \texttt{void set\_parameters(GameParameters parameters)} - ustawia parametry gry na podstawie podanego argumentu
+            \item \texttt{void load\_game(const std::string\& path)} - wczytuje zapis gry z pliku podanego przez \texttt{path}
         \end{itemize}
 
     \item \texttt{Board} - klasa reprezentująca planszę do gry
@@ -161,7 +159,10 @@ W projekcie utworzono następujące klasy:
             \item \texttt{Board(uint8\_t board\_rows, uint8\_t board\_columns)} - konstruktor parametryczny ustawia rozmiar planszy na \texttt{board\_rows} $\times$ \texttt{board\_rows}
             \item \texttt{uint16\_t get\_columns()} - zwraca liczbę kolumn planszy
             \item \texttt{uint16\_t get\_rows()} - zwraca liczbę wierszy planszy
+            \item \texttt{uint16\_t get\_win\_condition()} - zwraca warunek zwycięstwa
+            \item \texttt{void set\_win\_condition()} - ustawia warunek zwycięstwa
             \item \texttt{void set\_dimensions(uint16\_t rows, uint16\_t columns)} - ustawia wymiary planszy
+            \item \texttt{uint8\_t check\_victory()} - sprawdza czy któryś z graczy wygrał
         \end{itemize}
 \end{itemize}
      
@@ -192,10 +193,11 @@ Stan gry jest zapisywany do pliku w formie binarnej. Poniżej podane są po kole
     \item liczba wierszy w planszy - 2 bajty (unsigned)
     \item liczba kolumn w planszy - 2 bajty (unsigned)
   \end{enumerate}
+\item Warunek zwycięstwa - 2 bajty (unsigned)
 \item zawartość planszy - każdej komórce odpowiada jeden bajt, więc rozmiar tej sekcji w bajtach, to liczba kolumn $\times$ liczba wierszy (unsigned)
 \end{enumerate}
 
-Parametry większe niż jeden bajt nie mają ustalonej kolejności bajtów, w zależności od urządzenia, pliki z zapisem tego samego mogą się od siebie różnić.
+Parametry większe niż jeden bajt są zapisywane w formacie little endian (najmniej znaczący bajt na początku).
 
 \end{document}
 
