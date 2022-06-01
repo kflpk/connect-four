@@ -5,7 +5,6 @@
 #include "color.h"
 #include "extras.h"
 
-// TODO: Make a key-hadling method for Menu
 
 void Menu::draw_logo() {
     // TODO: Refactor the hell out of it, because it's ugly
@@ -68,23 +67,44 @@ void Menu::draw_content() {
     wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
 
     wattron(content, COLOR_PAIR(PAIR_DEFAULT));
-    for(int button = play; button != _last; button++) {
-        wmove(content, top_offset + 2 * button, left_offset);
-        wprintw(content, "[%c] %s", ((Buttons)button == current_button) ? 'x' : ' ',
-        button_labels[(Buttons)button].c_str());
+    if(state == menu) {
+        for(int button = play; button != _last; button++) {
+            wmove(content, top_offset + 2 * button, left_offset);
+            wprintw(content, "[%c] %s", ((Buttons)button == current_button) ? 'x' : ' ',
+            button_labels[(Buttons)button].c_str());
+        }
+    } else if(state == menu_settings) {
+        for(int setting = setting_rows; setting != setting_end; setting++) {
+            wmove(content, top_offset + 2 * setting, left_offset);
+            if(setting < setting_done) {
+                wprintw(content, "%s ", setting_labels[(Settings)setting].c_str());
+                waddch(content, current_setting == (Settings)setting ? ACS_LARROW : ' ');
+                switch((Settings)setting) {
+                    case setting_rows:
+                        wprintw(content, "%02d", temp_perameters.rows);
+                        break;
+                    case setting_cols:
+                        wprintw(content, "%02d", temp_perameters.columns);
+                        break;
+                    case setting_win:
+                        wprintw(content, "%02d", temp_perameters.victory_condition);
+                        break;
+                    default:
+                        break;
+                }
+                waddch(content, current_setting == (Settings)setting ? ACS_RARROW : ' ');
+            }
+            else {
+                wprintw(content, "[%c] %s ", ((Settings)setting == current_setting) ? 'x' : ' ',
+                setting_labels[(Settings)setting].c_str());
+            }
+        }
+
     }
     wattroff(content, COLOR_PAIR(PAIR_DEFAULT));
 
     wrefresh(content);
 }
-
-// bool Menu::is_frame(uint16_t row, uint16_t col) {
-//     if(row == 0 || row == height - 1 || 
-//        col == 0 || col == 1 || col == width -  2 || col == width  - 1 )
-//         return true;
-//     else
-//         return false;
-// }
 
 void Menu::set_parameters() {
     getmaxyx(stdscr, height, width);
@@ -101,35 +121,108 @@ void Menu::set_parameters() {
 
 Menu::Menu() {
     button_labels[play] = "Play";
-    button_labels[options] = "Options";
+    button_labels[options] = "Settings";
     button_labels[load_game] = "Load game";
     button_labels[quit] = "Quit game";
 
+    setting_labels[setting_rows]  = "Rows         ";
+    setting_labels[setting_cols]  = "Columns      ";
+    setting_labels[setting_win]   = "Win condition";
+    setting_labels[setting_done] = "Done";
+    setting_labels[setting_back]  = "Back";
+
     current_button = play;
+    current_setting = setting_rows;
+    state = menu;
 
     set_parameters();
 }
 
-void Menu::Start() {
+GameParameters Menu::Start() {
+    state = menu;
     refresh();
     draw_logo();
     draw_content();
 
-    Loop();
+    while(state == menu || state == menu_settings) {
+        key_handler();
+        draw_content();
+    }
+
+    return parameters;
 }
 
-void Menu::next_option() {
-    uint8_t button = (uint8_t)current_button;
-    if (current_button + 1 != (uint8_t)_last)
-        button++;
-    current_button = (Buttons)button;
+void Menu::next_item() {
+    if(state == menu) {
+        uint8_t button = (uint8_t)current_button;
+        if (current_button + 1 != (uint8_t)_last)
+            button++;
+        current_button = (Buttons)button;
+    } else if(state == menu_settings) {
+        uint8_t setting = (uint8_t)current_setting;
+        if (current_setting + 1 != (uint8_t)setting_end)
+            setting++;
+        current_setting = (Settings)setting;
+    }
 }
 
-void Menu::prev_option() {
-    uint8_t button = (uint8_t)current_button;
-    if (current_button != (uint8_t)play)
-        button--;
-    current_button = (Buttons)button;
+void Menu::prev_item() {
+    if(state == menu) {
+        uint8_t button = (uint8_t)current_button;
+        if (current_button != (uint8_t)play)
+            button--;
+        current_button = (Buttons)button;
+    } else if(state == menu_settings) {
+        uint8_t setting = (uint8_t)current_setting;
+        if (current_setting != (uint8_t)setting_rows)
+            setting--;
+        current_setting = (Settings)setting;
+    }
+}
+
+void Menu::setting_increment() {
+    switch(current_setting) {
+        case setting_rows:
+            if(temp_perameters.rows < 100)
+                temp_perameters.rows++;
+            break;
+
+        case setting_cols:
+            if(temp_perameters.columns < 100)
+                temp_perameters.columns++;
+            break;
+
+        case setting_win:
+            if(temp_perameters.victory_condition < 100)
+                temp_perameters.victory_condition++;
+            break;
+        
+        default: 
+            break;
+    }
+}
+
+void Menu::setting_decrement() {
+    switch(current_setting) {
+        case setting_rows:
+            if(temp_perameters.rows > 1)
+                temp_perameters.rows--;
+            break;
+
+        case setting_cols:
+            if(temp_perameters.columns > 1)
+                temp_perameters.columns--;
+            break;
+
+        case setting_win:
+            if(temp_perameters.victory_condition > 2)
+                temp_perameters.victory_condition--;
+            break;
+        
+        default: 
+            break;
+    }
+
 }
 
 void Menu::key_handler() {
@@ -138,48 +231,76 @@ void Menu::key_handler() {
     key = wgetch(content);
     
     switch(key) {
-        case KEY_LEFT:
         case KEY_UP:
-        case 'k':
-            prev_option();
+            prev_item();
+            break;
+
+        case KEY_DOWN:
+            next_item();
             break;
 
         case KEY_RIGHT:
-        case KEY_DOWN:
-        case 'j':
-            next_option();
+            setting_increment();
+            break;
+
+        case KEY_LEFT:
+            setting_decrement();
             break;
 
         case '\n': //enter key (for some reason KEY_ENTER didn't work)
         case ' ': //spacebar
-            switch(current_button) {
-                case play:
-                    //play
-                    break;
+            if(state == menu) 
+                switch(current_button) {
+                    case play:
+                        // warning("The window is too small to draw a board of that dimensions. Please resize the terminal window or decrease the font size and restart the game");
+                        state = active;
+                        break;
 
-                case load_game:
-                    //load game
-                    break;
+                    case load_game:
+                        parameters.load_save = true;
+                        parameters.save_path = "save.bin";
+                        state = active;
+                        break;
 
-                case options:
-                    //options
-                    break;
+                    case options:
+                        temp_perameters = parameters;
+                        state = menu_settings;
+                        break;
 
-                case quit:
-                    exit(0);
-                    break;
-            }
+                    case quit:
+                        exit(0);
+                        break;
+
+                    default:
+                        break;
+                }
+
+            else if(state == menu_settings) 
+                switch(current_setting) {
+
+                    case setting_done:
+                        parameters = temp_perameters;
+                        state = menu;
+                        break;
+
+                    case setting_back:
+                        state = menu;
+                        break;
+
+                    default:
+                        break;
+                }
             break;
 
-        case '\e':  //ESC key
-            exit(0);
+        case 27:  //ESC key
+            if(state == menu_settings)
+                state = menu;
+            else
+                exit(0);
             break;
-    }
-}
-
-void Menu::Loop() {
-    while(true) {
-        key_handler();
-        draw_content();
+        case KEY_BACKSPACE:
+            if(state == menu_settings)
+                state = menu;
+            break;
     }
 }
