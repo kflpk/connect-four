@@ -30,6 +30,7 @@ Board::Board() {
 // getters
 uint16_t Board::get_columns(void) { return columns; }
 uint16_t Board::get_rows(void) { return rows; }
+uint16_t Board::get_win_condition() { return victory_condition; }
 
 // setters
 void Board::set_dimensions(uint16_t rows, uint16_t columns) {

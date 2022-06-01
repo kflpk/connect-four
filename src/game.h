@@ -47,9 +47,7 @@ class Game {
         // Functions
         void draw_frame();
         void draw_board();
-        void draw_tile(uint16_t row, uint16_t col, 
-                       uint16_t ch,  uint16_t cw,
-                       uint16_t off_y, uint16_t off_x);
+        void draw_tile(uint16_t row, uint16_t col, uint16_t off_y, uint16_t off_x);
         void draw_indicators();
         void draw_pause();
         void next_column();

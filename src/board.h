@@ -21,6 +21,7 @@ class Board {
         Board();
         uint16_t get_columns(void);
         uint16_t get_rows(void);
+        uint16_t get_win_condition();
         void set_dimensions(uint16_t rows, uint16_t columns);
         void set_victory_condition(uint16_t condition);
         std::vector<uint8_t>::iterator operator[] (int index);

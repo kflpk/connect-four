@@ -1,5 +1,7 @@
 
 #include <map>
+#include <cstdlib>
+#include <fstream>
 #include "color.h"
 #include "game.h"
 #include "extras.h"
@@ -13,8 +15,8 @@ void Game::set_parameters(GameParameters parameters) {
     uint16_t _ind_height = 7;
 
     // pause window dimensions
-    uint32_t pause_width = 17;
-    uint32_t pause_height = 10;
+    pause_width = 17;
+    pause_height = 10;
 
     uint32_t pause_horizontal_offset = (width - pause_width) / 2;
     uint32_t pause_vertical_offset = (height - pause_height) / 2;
@@ -78,7 +80,7 @@ void Game::draw_board() {
     // Placing color-rendered rectangles on the board according to player
     for(uint32_t row = 0; row < board.get_rows(); row++)
         for(uint32_t col = 0; col < board.get_columns(); col++)
-            draw_tile(row, col, cell_height, cell_width, vertical_offset, horizontal_offset);
+            draw_tile(row, col, vertical_offset, horizontal_offset);
 
     // Drawing the frame around the tokens
     // TODO: add variables for spacing between chips, now they are hard coded an the code is hard to read
@@ -96,8 +98,7 @@ void Game::draw_board() {
     wrefresh(board_win);
 }
 
-void Game::draw_tile(uint16_t row, uint16_t col, uint16_t cell_height, uint16_t cell_width, 
-uint16_t off_y, uint16_t off_x) {
+void Game::draw_tile(uint16_t row, uint16_t col, uint16_t off_y, uint16_t off_x) {
     for(uint16_t y = 0; y < cell_height; y++) {
         for(uint16_t x = 0; x < cell_width; x++) {
             wmove(board_win, (row * (cell_height + 1)) + off_y + y, (col * (cell_width + 2)) + off_x + x);
@@ -206,7 +207,7 @@ bool Game::validate_size() {
 
     getmaxyx(board_win, board_win_height, board_win_width);
 
-    if(board_win_height - 2 < board_char_height || board_win_width - 2 < board_char_width)
+    if(board_win_height - 4 < board_char_height || board_win_width - 2 < board_char_width)
         return false;
 
     return true;
@@ -323,7 +324,7 @@ void Game::key_handler() {
                         break;
 
                     case pause_save:
-                        // TODO: load game
+                        save_game("data.bin");
                         break;
 
                     case pause_quit:
@@ -367,4 +368,41 @@ void Game::Start() {
             break;
         }
     }
+}
+
+bool Game::save_game(const std::string& path) {
+    
+    // Prepare the binary contents;
+    size_t file_size = 8 + board.get_columns() * board.get_rows();
+    std::vector<char> data(file_size, 0);
+    // std::shared_ptr<char[]> data = std::make_shared<char[]>(new char[file_size]);
+    // ^ I tried using shared_ptr and pass data.get() to write but it kept on segfaulting
+
+
+    data[0] = 1;
+    data[1] = current_player;
+    data[2] = board.get_rows();
+    data[3] = board.get_rows() >> 8;
+    data[4] = board.get_columns();
+    data[5] = board.get_columns() >> 8;
+    data[6] = board.get_win_condition();
+    data[7] = board.get_win_condition() >> 8;
+
+
+    size_t i = 8;
+    for(int row = 0; row < board.get_rows(); row++) {
+        for(int col = 0; col < board.get_columns(); col++) {
+            data[i + 0] = board[row][col];
+            i++;
+        }
+    }
+
+    std::ofstream file(path, std::ios::binary);
+
+    if(file.good()) {
+        file.write(&data[0], file_size);
+    }
+
+    file.close();
+    return true;
 }
