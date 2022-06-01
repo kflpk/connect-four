@@ -72,7 +72,7 @@ void Game::draw_board() {
     getmaxyx(board_win, board_win_height, board_win_width);
 
     uint32_t board_width  = board.get_columns() * (cell_width + 1);
-    uint32_t board_height = board.get_rows() * (cell_height + 1);
+    // uint32_t board_height = board.get_rows() * (cell_height + 1);
 
     uint32_t horizontal_offset = (board_win_width  - board_width ) / 2;
     uint32_t vertical_offset = 3;
@@ -293,7 +293,7 @@ void Game::key_handler() {
                 }
                 break;
 
-            case '\e':  //ESC key
+            case 27:  //ESC key
             case  'p':
                 state = paused;
                 current_button = pause_resume;
@@ -335,7 +335,7 @@ void Game::key_handler() {
                 }
                 break;
 
-            case '\e':  //ESC key
+            case 27:  //ESC key
             case  'p':
                 state = active;
                 break;
@@ -399,10 +399,19 @@ bool Game::save_game(const std::string& path) {
 
     std::ofstream file(path, std::ios::binary);
 
-    if(file.good()) {
-        file.write(&data[0], file_size);
+    try {
+        if(file.good()) {
+            file.write(&data[0], file_size);
+        }
+    }
+    catch(std::exception ex) {
+        std::cout << ex.what();
     }
 
     file.close();
     return true;
+}
+
+void Game::load_game(const std::string& path) {
+    return;
 }

@@ -58,6 +58,7 @@ class Game {
         void switch_player();
         void display_victory_screen(uint8_t player);
         bool save_game(const std::string& path);
+        void load_game(const std::string& path);
         bool validate_size();
     public:
         Game();

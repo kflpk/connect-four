@@ -33,9 +33,9 @@ uint16_t Board::get_rows(void) { return rows; }
 uint16_t Board::get_win_condition() { return victory_condition; }
 
 // setters
-void Board::set_dimensions(uint16_t rows, uint16_t columns) {
-    this->columns = columns;
-    this->rows = rows;
+void Board::set_dimensions(uint16_t r, uint16_t c) {
+    columns = c;
+    rows = r;
 
     content.resize(rows * columns);
 

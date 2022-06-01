@@ -290,7 +290,7 @@ void Menu::key_handler() {
                 }
             break;
 
-        case '\e':  //ESC key
+        case 27:  //ESC key
             if(state == menu_settings)
                 state = menu;
             else

@@ -65,7 +65,6 @@ class Menu {
         // Functions for drawing
         void draw_logo(); // Draws "Connect Four" logo in the main menu
         void draw_content(); // Draws menu items and selection indicators
-
     public:
         Menu(); // Default constructor of Menu class
         GameParameters Start(); // Starts the main menu
