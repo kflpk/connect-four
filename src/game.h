@@ -24,10 +24,14 @@ class Game {
         Board board;
         GameState state;
 
+        // Dimensions for drawing the game screen
         uint32_t width, height;
+        uint32_t cell_width, cell_height;
+        uint32_t border_width = 2, border_height = 1;
         uint32_t pause_width, pause_height;
-        uint8_t current_player = 1;
 
+        // Current game state
+        uint8_t current_player = 1;
         PauseButtons current_button;
         uint16_t focused_column;
         Colors player_colors;
@@ -56,6 +60,7 @@ class Game {
         void switch_player();
         void display_victory_screen(uint8_t player);
         bool save_game(const std::string& path);
+        bool validate_size();
     public:
         Game();
         void set_parameters(GameParameters parameters);

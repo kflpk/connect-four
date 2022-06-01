@@ -19,6 +19,10 @@ void Game::set_parameters(GameParameters parameters) {
     uint32_t pause_horizontal_offset = (width - pause_width) / 2;
     uint32_t pause_vertical_offset = (height - pause_height) / 2;
 
+    // cell sizes in characters for board drawing
+    cell_width  = 7;
+    cell_height = 3;
+
     // window initializations
     indicators_win = newwin(_ind_height, width, 0, 0);
     board_win = newwin(height - _ind_height + 1, width, _ind_height - 1, 0);
@@ -64,9 +68,6 @@ void Game::draw_board() {
     uint16_t board_win_height;
 
     getmaxyx(board_win, board_win_height, board_win_width);
-
-    uint32_t cell_width  = 7;
-    uint32_t cell_height = 3;
 
     uint32_t board_width  = board.get_columns() * (cell_width + 1);
     uint32_t board_height = board.get_rows() * (cell_height + 1);
@@ -127,8 +128,6 @@ void Game::draw_indicators() {
     uint16_t indicators_win_height;
 
     getmaxyx(indicators_win, indicators_win_height, indicators_win_width);
-
-    uint32_t cell_width  = 7;
 
     uint32_t board_width  = board.get_columns() * (cell_width + 1);
 
@@ -196,6 +195,21 @@ void Game::prev_column() {
     if(focused_column > 0) {
         focused_column--;
     }
+}
+
+bool Game::validate_size() {
+    uint32_t board_char_height = cell_height * board.get_rows() + (board.get_rows() + 1) * border_height;
+    uint32_t board_char_width = cell_width * board.get_columns() + (board.get_columns() + 1) * border_width;
+
+    uint32_t board_win_height;
+    uint32_t board_win_width;
+
+    getmaxyx(board_win, board_win_height, board_win_width);
+
+    if(board_win_height - 2 < board_char_height || board_win_width - 2 < board_char_width)
+        return false;
+
+    return true;
 }
 
 void Game::display_victory_screen(uint8_t player) {
@@ -333,6 +347,11 @@ void Game::Start() {
         draw_frame();
         draw_indicators();
         draw_board();
+
+        if(!validate_size()) {
+            warning("Error: The terminal window is too small to render the board of this size. Please change the board dimensions or resize the terminal.");
+            break;
+        }
 
         if (state == paused) {
             draw_pause();
