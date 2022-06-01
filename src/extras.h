@@ -4,6 +4,7 @@
 #include <cinttypes>
 #include <string>
 #include <vector>
+#include <string>
 
 void wfill(WINDOW* win, char c); 
 /* ncurses-like function to fill a window with a char
@@ -22,6 +23,9 @@ struct GameParameters {
     
     uint8_t player1_color;
     uint8_t player2_color;
+
+    bool load_save = false;
+    std::string save_path;
 };
 
 enum GameState {

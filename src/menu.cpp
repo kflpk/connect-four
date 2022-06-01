@@ -257,7 +257,9 @@ void Menu::key_handler() {
                         break;
 
                     case load_game:
-                        // TODO: load game
+                        parameters.load_save = true;
+                        parameters.save_path = "save.bin";
+                        state = active;
                         break;
 
                     case options:

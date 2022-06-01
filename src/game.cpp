@@ -30,11 +30,16 @@ void Game::set_parameters(GameParameters parameters) {
     board_win = newwin(height - _ind_height + 1, width, _ind_height - 1, 0);
     pause_win = newwin(pause_height, pause_width, pause_vertical_offset, pause_horizontal_offset);
 
-    if(parameters.rows != 0 && parameters.columns != 0) 
-        board.set_dimensions(parameters.rows, parameters.columns);
+    if(parameters.load_save) {
+        load_game(parameters.save_path);
+    }
+    else {
+        if(parameters.rows != 0 && parameters.columns != 0) 
+            board.set_dimensions(parameters.rows, parameters.columns);
 
-    if(parameters.victory_condition != 0)
-        board.set_victory_condition(parameters.victory_condition);
+        if(parameters.victory_condition != 0)
+            board.set_victory_condition(parameters.victory_condition);
+    }
 
     player_colors.player1 = parameters.player1_color;
     player_colors.player2 = parameters.player2_color;
@@ -324,7 +329,7 @@ void Game::key_handler() {
                         break;
 
                     case pause_save:
-                        save_game("data.bin");
+                        save_game("save.bin");
                         break;
 
                     case pause_quit:
@@ -413,5 +418,30 @@ bool Game::save_game(const std::string& path) {
 }
 
 void Game::load_game(const std::string& path) {
+    std::vector<char> preambule(8, 0);
+    std::ifstream file(path, std::ios::binary);
+
+    file.read(&preambule[0], 8);
+
+    current_player = preambule[1];
+
+    uint8_t rows = preambule[2] | (preambule[3] << 8);
+    uint8_t cols = preambule[4] | (preambule[5] << 8);
+
+    board.set_dimensions(rows, cols);
+
+    std::vector<char> board_content(rows * cols);
+
+    try {
+        file.read(&board_content[0], cols * rows);
+    } catch(std::exception ex) {
+        std::cout << ex.what();
+    }
+    
+    for(size_t row = 0; row < rows; row++) {
+        for(size_t col = 0; col < cols; col++) {
+            board[row][col] = board_content[row * board.get_columns() + col];
+        }
+    }
     return;
 }
