@@ -252,7 +252,7 @@ void Menu::key_handler() {
             if(state == menu) 
                 switch(current_button) {
                     case play:
-                        // warning("The window is too small to draw a board of that dimensions. Please resize the terminal window or decrease the font size and restart the game");
+                        parameters.load_save = false;
                         state = active;
                         break;
 
