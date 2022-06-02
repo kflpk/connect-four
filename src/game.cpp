@@ -76,7 +76,7 @@ void Game::draw_board() {
 
     getmaxyx(board_win, board_win_height, board_win_width);
 
-    uint32_t board_width  = board.get_columns() * (cell_width + 1);
+    uint32_t board_width  = board.get_columns() * (cell_width + border_width) + border_width;
     // uint32_t board_height = board.get_rows() * (cell_height + 1);
 
     uint32_t horizontal_offset = (board_win_width  - board_width ) / 2;
@@ -135,7 +135,7 @@ void Game::draw_indicators() {
 
     getmaxyx(indicators_win, indicators_win_height, indicators_win_width);
 
-    uint32_t board_width  = board.get_columns() * (cell_width + 1);
+    uint32_t board_width  = board.get_columns() * (cell_width + border_width) + border_width;
 
     uint32_t horizontal_offset = (indicators_win_width  - board_width ) / 2;
 
