@@ -10,7 +10,7 @@ Game::Game() {
     getmaxyx(stdscr, height, width);
 }
 
-void Game::set_parameters(GameParameters parameters) {
+bool Game::set_parameters(GameParameters parameters) {
     // indicator window dimensions
     uint16_t _ind_height = 7;
 
@@ -33,7 +33,7 @@ void Game::set_parameters(GameParameters parameters) {
     if(parameters.load_save) {
         if(load_game(parameters.save_path) == false) {
             warning("Error: file not found");
-            // return;
+            return false;
         }
     }
     else {
@@ -49,6 +49,7 @@ void Game::set_parameters(GameParameters parameters) {
 
     focused_column = board.get_columns() / 2;
     state = active;
+    return true;
 }
 
 void Game::switch_player() {

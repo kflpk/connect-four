@@ -62,6 +62,6 @@ class Game {
         bool validate_size();
     public:
         Game();
-        void set_parameters(GameParameters parameters);
+        bool set_parameters(GameParameters parameters);
         void Start();
 };

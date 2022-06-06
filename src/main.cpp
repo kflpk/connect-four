@@ -16,8 +16,8 @@ int main() {
     while(true) {
         GameParameters params = menu.Start();
 
-        game.set_parameters(params);
-        game.Start();
+        if(game.set_parameters(params))
+            game.Start();
     }
 
     cleanup();
