@@ -438,8 +438,10 @@ bool Game::load_game(const std::string& path) {
 
     uint8_t rows = preambule[2] | (preambule[3] << 8);
     uint8_t cols = preambule[4] | (preambule[5] << 8);
+    uint8_t win_condition = preambule[6] | (preambule[7] << 8);
 
     board.set_dimensions(rows, cols);
+    board.set_victory_condition(win_condition);
 
     std::vector<char> board_content(rows * cols);
 

@@ -128,7 +128,7 @@ Menu::Menu() {
     setting_labels[setting_rows]  = "Rows         ";
     setting_labels[setting_cols]  = "Columns      ";
     setting_labels[setting_win]   = "Win condition";
-    setting_labels[setting_done] = "Done";
+    setting_labels[setting_done]  = "Done";
     setting_labels[setting_back]  = "Back";
 
     current_button = play;
@@ -146,6 +146,8 @@ GameParameters Menu::Start() {
 
     while(state == menu || state == menu_settings) {
         key_handler();
+        set_parameters();
+        draw_logo();
         draw_content();
     }
 
@@ -313,5 +315,11 @@ void Menu::key_handler() {
 }
 
 void Menu::update_dimensions() {
-
+    // refresh();
+    initscr();
+    set_parameters();
+    wrefresh(title);
+    wrefresh(content);
+    draw_logo();
+    draw_content();
 }

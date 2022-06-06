@@ -9,10 +9,6 @@
 
 static Menu* menu_ptr;
 static Game* game_ptr;
-static void handle_winch(int sig) {
-    menu_ptr->update_dimensions();
-    game_ptr->update_dimensions();
-}
 
 static void handle_term(int sig) {
     game_ptr->save_game(".autosave.bin");
@@ -32,7 +28,6 @@ int main() {
     menu_ptr = &menu;
     game_ptr = &game;
 
-    signal(SIGWINCH, handle_winch);
     signal(SIGTERM,  handle_term);
 
     while(true) {
