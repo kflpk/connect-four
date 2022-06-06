@@ -31,7 +31,10 @@ void Game::set_parameters(GameParameters parameters) {
     pause_win = newwin(pause_height, pause_width, pause_vertical_offset, pause_horizontal_offset);
 
     if(parameters.load_save) {
-        load_game(parameters.save_path);
+        if(load_game(parameters.save_path) == false) {
+            warning("Error: file not found");
+            // return;
+        }
     }
     else {
         if(parameters.rows != 0 && parameters.columns != 0) 
@@ -330,6 +333,7 @@ void Game::key_handler() {
 
                     case pause_save:
                         save_game("save.bin");
+                        warning("Game state saved to 'save.bin'");
                         break;
 
                     case pause_quit:
@@ -417,9 +421,12 @@ bool Game::save_game(const std::string& path) {
     return true;
 }
 
-void Game::load_game(const std::string& path) {
+bool Game::load_game(const std::string& path) {
     std::vector<char> preambule(8, 0);
     std::ifstream file(path, std::ios::binary);
+
+    if(!file.is_open())
+        return false;
 
     file.read(&preambule[0], 8);
 
@@ -443,5 +450,5 @@ void Game::load_game(const std::string& path) {
             board[row][col] = board_content[row * board.get_columns() + col];
         }
     }
-    return;
+    return true; 
 }

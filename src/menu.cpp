@@ -193,7 +193,8 @@ void Menu::setting_increment() {
             break;
 
         case setting_win:
-            if(temp_perameters.victory_condition < 100)
+            if(temp_perameters.victory_condition < 100
+               && temp_perameters.victory_condition < std::max(temp_perameters.columns, temp_perameters.rows))
                 temp_perameters.victory_condition++;
             break;
         
@@ -221,6 +222,12 @@ void Menu::setting_decrement() {
         
         default: 
             break;
+    }
+
+    // Prevent the user from setting both dimensions lower than win condition
+    if(temp_perameters.victory_condition > 
+    std::max(temp_perameters.columns, temp_perameters.rows)) {
+        temp_perameters.victory_condition = std::max(temp_perameters.columns, temp_perameters.rows);
     }
 
 }
