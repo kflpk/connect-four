@@ -1,9 +1,24 @@
 #include <iostream>
 #include <ncurses.h>
+#include <csignal>
 #include "menu.h"
 #include "game.h"
 #include "color.h"
 #include "extras.h"
+
+static Menu* menu_ptr;
+static Game* game_ptr;
+static void handle_winch(int sig) {
+    menu_ptr->update_dimensions();
+    game_ptr->update_dimensions();
+}
+
+static void handle_term(int sig) {
+    game_ptr->save_game(".autosave.bin");
+    cleanup();
+    std::cout << "SIGTERM received, game state has been saved to '.autosave.bin'." << std::endl;
+    exit(sig);
+}
 
 int main() {
     std::atexit(cleanup); // closes ncurses at exit so that the terminal output 
@@ -13,9 +28,15 @@ int main() {
     Menu menu;
     Game game;
 
+    menu_ptr = &menu;
+    game_ptr = &game;
+
+    signal(SIGWINCH, handle_winch);
+    signal(SIGTERM,  handle_term);
+
     while(true) {
         GameParameters params = menu.Start();
-
+        
         if(game.set_parameters(params))
             game.Start();
     }

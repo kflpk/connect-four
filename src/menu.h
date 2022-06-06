@@ -68,4 +68,5 @@ class Menu {
     public:
         Menu(); // Default constructor of Menu class
         GameParameters Start(); // Starts the main menu
+        void update_dimensions();
 };

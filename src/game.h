@@ -57,11 +57,12 @@ class Game {
         void key_handler();
         void switch_player();
         void display_victory_screen(uint8_t player);
-        bool save_game(const std::string& path);
         bool load_game(const std::string& path);
         bool validate_size();
     public:
         Game();
+        void update_dimensions();
+        bool save_game(const std::string& path);
         bool set_parameters(GameParameters parameters);
         void Start();
 };
