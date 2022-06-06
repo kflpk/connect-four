@@ -11,7 +11,9 @@ Game::Game() {
     getmaxyx(stdscr, height, width);
 }
 
-bool Game::set_parameters(GameParameters parameters) {
+void Game::update_dimensions() {
+    getmaxyx(stdscr, height, width);
+
     // indicator window dimensions
     uint16_t _ind_height = 7;
 
@@ -30,6 +32,10 @@ bool Game::set_parameters(GameParameters parameters) {
     indicators_win = newwin(_ind_height, width, 0, 0);
     board_win = newwin(height - _ind_height + 1, width, _ind_height - 1, 0);
     pause_win = newwin(pause_height, pause_width, pause_vertical_offset, pause_horizontal_offset);
+}
+
+bool Game::set_parameters(GameParameters parameters) {
+    update_dimensions();
 
     if(parameters.load_save) {
         if(load_game(parameters.save_path) == false) {
@@ -358,6 +364,7 @@ void Game::key_handler() {
 
 void Game::Start() {
     while(true) {
+        update_dimensions();
         draw_frame();
         draw_indicators();
         draw_board();
@@ -457,8 +464,4 @@ bool Game::load_game(const std::string& path) {
         }
     }
     return true; 
-}
-
-void Game::update_dimensions() {
-
 }
