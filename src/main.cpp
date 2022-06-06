@@ -5,6 +5,7 @@
 #include "game.h"
 #include "color.h"
 #include "extras.h"
+#include <filesystem>
 
 static Menu* menu_ptr;
 static Game* game_ptr;
@@ -35,8 +36,15 @@ int main() {
     signal(SIGTERM,  handle_term);
 
     while(true) {
-        GameParameters params = menu.Start();
+        GameParameters params;
         
+        if(std::filesystem::exists(".autosave.bin")) {
+            params.load_save = true;
+            params.save_path = ".autosave.bin";
+        } else {
+            params = menu.Start();
+        }
+
         if(game.set_parameters(params))
             game.Start();
     }

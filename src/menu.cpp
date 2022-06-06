@@ -311,3 +311,7 @@ void Menu::key_handler() {
             break;
     }
 }
+
+void Menu::update_dimensions() {
+
+}

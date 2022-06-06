@@ -1,5 +1,6 @@
 
 #include <map>
+#include <filesystem>
 #include <cstdlib>
 #include <fstream>
 #include "color.h"
@@ -35,6 +36,8 @@ bool Game::set_parameters(GameParameters parameters) {
             warning("Error: file not found");
             return false;
         }
+        if(parameters.save_path == ".autosave.bin")
+            std::filesystem::remove(".autosave.bin");
     }
     else {
         if(parameters.rows != 0 && parameters.columns != 0) 
@@ -452,4 +455,8 @@ bool Game::load_game(const std::string& path) {
         }
     }
     return true; 
+}
+
+void Game::update_dimensions() {
+
 }
