@@ -56,67 +56,100 @@
 
 \section{Opis projektu}
 
-Projekt jest realizcją gry w "Czwórki" (ang. "Connect Four") w C++, z interfejsem TUI (t.j. interfejs używający znaków specjalnych i kolorów do rysowania interfejsu użytkownika w konsoli). 
+Projekt jest realizcją gry w "Czwórki" (ang. "Connect Four") w C++, z interfejsem TUI (t.j. interfejs używający znaków 
+specjalnych i kolorów do rysowania interfejsu użytkownika w konsoli). 
 
 \section{Project description}
 
-The project is a realisation of the game "Connect Four" made in C++ with TUI interface (an interface using special characters for drawing UI in the terminal)
+The project is a realisation of the game "Connect Four" made in C++ with TUI interface (an interface using special 
+characters for drawing UI in the terminal)
 
 \section{Instrukcja użytkownika}
+\subsection*{Menu główne}
 
 Po włączeniu programu wyświetla się menu główne z następującymi opcjami:
 \begin{itemize}
     \item Play - rozpoczyna grę w bieżącymi ustawieniami
     \item Load game - umożliwia wczytanie pliku z zapisem gry
-    \item Options - otwiera menu umożliwiające zmianę ustawień gry
+    \item Settings - otwiera menu umożliwiające zmianę ustawień gry
     \item Quit game - wychodzi z programu
 \end{itemize}
 
-Wciśnięcie klawisza Escape spowoduje pauzę w grze i wyświetlenie się menu z następującymi opcjami:
+Nawigacja pomiędzy opcjami odbywa się za pomocą strzałek w górę i w dół. Wciśnięcie klawisza Enter spowoduje wykonanie 
+akcji związanej z wybranym elementem menu
+
+Wybranie "Load game" wczyta stan gry z pliku z zapisem \texttt{save.bin}. 
+W przypadku błędu w odczycie pliku, wyświetli się komunikat powiadamiający o wystąpieniu błędu.
+
+\subsection*{Ustawienia}
+W menu "Settings" znajdują się opcje do zmienienia ustawień gry. Wokół liczby przy wybranej opcji pojawią się strzałki. 
+Parametry te można zmienić używając strzałek w lewo i w prawo. Nawigacja pomiędzy opcjami odbywa się za pomocą strzałek
+w górę i w dół.
 \begin{itemize}
-    \item Resume - wznawia przebieg gry (alternatywnie można ponownie wcisnąć Escape)
-    \item Save game - zapisuje stan gry do pliku
-    \item Main menu - kończy grę i przechodzi do głównego menu bez zapisu
+    \item Rows - liczba wierszy planszy (domyślnie 5)
+    \item Columns - liczba kolumn planszy (domyślnie 7)
+    \item Win condition - liczba żetonów w sekwencji potrzebna do wygrania gry (domyślnie 4)
 \end{itemize}
+W menu ustawień znajdują się również przyciski "Done" i "Cancel". Gdy użytkownik naciśnie Enter mając
+wybraną opcje "Done", ustawienia zostaną zapisane i włączy się główne menu. Wybranie "Cancel" wyjdzie do głównego menu
+bez zapisywania zmienionych ustawień.
 
-Wybranie "Load game" wyświetla użytkownikowi pole tekstowe, do którego należy wpisać nazwę pliku z zapisem gry. W przypadku błędu w odczycie pliku, wyświetli się komunikat powiadamiający o wystąpieniu błędu.
+\subsection*{Ekran gry}
 
-W menu "Options" można zmienić następujące parametry:
+Po rozpoczęciu gry, na ekranie wyświetli okno zostanie podzielone na dwie części. Górna część zawiera elementy
+interfejsu informujące o aktualnym graczu i wybranej kolumnie, a dolna - planszę do gry
+Zmiana wybranej kolumny odbywa się przy pomocy strzałek w lewo i w prawo. Po wciśnięciu klawisza Enter, do wybranej
+kolumny zostanie wrzucony żetonu koloru odpowiadającego aktualnemu graczowi. Po wrzuceniu żetonu następuje tura
+kolejnego gracza. Gracz który jako pierwszy ułoży odpowiednią liczbę żetonów w prostej linii lub po przekątnej wygrywa.
+
+Jeśli program zostanie zamknięty w czasie gry lub podczas wyświetlania menu pauzy poprzez wysłanie sygnału 
+\texttt{SIGTERM}, aktualny stan gry zostanie zapisany do pliku \texttt{.autosave.bin}. 
+Jeśli program zostanie otwarty ponownie, sprawdzi czy plik o tej nazwie istnieje
+w aktualnym folderze. Jeśli plik z autozapisem istnieje, zostanie on wczytany bezpośrednio po włączeniu programu,
+z pominięciem głownego menu.
+
+Niestety nie jest możliwy automatyczny zapis gry przy zamknięciu okna, ponieważ zamknięty terminal wysyła wszystkim
+procesom w nim otwartym sygnał \texttt{SIGKILL}, którego obsłużenie nie jest możliwe.
+
+\subsection*{Menu pauzy}
+
+Wciśnięcie klawisza \texttt{p} podczas gry spowoduje pauzę w grze i wyświetlenie się menu z następującymi opcjami:
 \begin{itemize}
-    \item Board width - szerokość planszy do gry (domyślnie 7)
-    \item Board height - wysokość planszy do gry (domyślnie 5)
-    \item Victory condition - liczba żetonów w sekwencji potrzebna do wygrania gry (domyślnie 4)
+    \item Resume - wznawia przebieg gry (alternatywnie można ponownie wcisnąć \texttt{p})
+    \item Save game - zapisuje stan gry do pliku \texttt{save.bin}
+    \item Main menu - kończy grę i przechodzi do głównego menu bez zapisu
 \end{itemize}
 
 \section{Kompilacja}
 
-Program został napisany na systemy operacyjne z rodziny Linux, 
-chociaż powinien on działać na Windowsie, ponieważ kod nie 
-używa żadnych zależnych od platformy plików nagłówkowych. 
-Program używa  systemu CMake do budowania projektu. 
-Można skompilować go na dwa sposoby:
+Program został napisany na systemy operacyjne z rodziny Linux i nie jest możliwe skompilowanie go na system Windows,
+ponieważ on Unixowegy systemych sygnałów \texttt{SIGTERM} i \texttt{SIGWINCH}. Prawdopodobnie jest możliwa kompilacja
+programu na systemy z rodziny BSD, jednak program nie był na nich testowany.
+
+Program można skompilować na dwa sposoby:
     \begin{itemize}
          
     \item Sposób 1:
         \begin{enumerate}
-            \item Wejść do folderu \texttt{build/}
-            \item Wykonać polecenie \texttt{cmake ..}
+            \item Wejść do folderu  \texttt{build/}
+            \item Wykonać polecenie \texttt{cmake .. \&\& make}
         \end{enumerate}
 
     \item Sposób 2:
         \begin{enumerate}
-            \item Z katalogu głównego wywołać skrypt \texttt{./bld.sh}. Ze względu na fakt, że skrypt wywołuje program make, może on nie działać na Windowsie.
+            \item Z katalogu głównego wywołać skrypt \texttt{./bld.sh}.
         \end{enumerate}
 
     \end{itemize}
 
-Po zbudowaniu powienien się plik wykonywalny o \texttt{./build/connect-four}.
+Po zbudowaniu powienien się plik wykonywalny \texttt{./build/connect-four}.
 Z uwagi na fakt, że ścieżki do zasobów są wpisane w programie relatywnie 
 do głównego katalogu, to program wykonywalny powinien z niego wywoływany.
 
 \section{Pliki źródłowe}
 
-W tym punkcie należy opisać wszystkie pliki źródłowe (\texttt{.cpp}, \texttt{.h}) w projekcie. Należy podać nazwę każdego pliku oraz informację o tym co się w nim znajduje. Na przykład:
+W tym punkcie należy opisać wszystkie pliki źródłowe (\texttt{.cpp}, \texttt{.h}) w projekcie. Należy podać nazwę 
+każdego pliku oraz informację o tym co się w nim znajduje. Na przykład:
 Projekt składa się z następujących plików źródłowych:
     \begin{itemize}
     \item \texttt{board.h}, \texttt{board.cpp} – deklaracja oraz implementacja klasy Board,
@@ -132,7 +165,7 @@ Projekt składa się z następujących plików źródłowych:
 W projekcie wykorzystano następujące dodatkowe biblioteki:
     \begin{itemize}
     \item ncurses – biblioteka do interakcji z emulatorem terminala,  
-    pozwala  tworzyć zaawansowane interfejsy konsolowe:\\
+    pozwala tworzyć zaawansowane interfejsy konsolowe:\\
     \url{https://invisible-island.net/ncurses/}
     \end{itemize}
 \section{Opis klas}
@@ -142,27 +175,37 @@ W projekcie utworzono następujące klasy:
     \item \texttt{Menu} - klasa reprezentująca menu główne programu
         \begin{itemize}
             \item \texttt{Menu()}
-            \item \texttt{GameParameters Start()} - rozpoczyna pętlę klasy \texttt{Menu} i zwraca strukturę z parametrami gry po jej zakończeniu
+            \item \texttt{GameParameters Start()} - rozpoczyna pętlę klasy \texttt{Menu} i zwraca strukturę z 
+            parametrami gry po jej zakończeniu
+            \item \texttt{void update\_dimensions()} - ustawia wymiary elementów w zależności od rozmiaru okna
         \end{itemize}
 
     \item \texttt{Game} - klasa reprezentująca stan i właściwy przebieg rogrywki
         \begin{itemize}
             \item \texttt{Game()} - domyślny konstruktor klasy \texttt{Game}
             \item \texttt{void Start()} - ustawia parametry i rozpoczyna pętlę gry
-            \item \texttt{void set\_parameters(GameParameters parameters)} - ustawia parametry gry na podstawie podanego argumentu
-            \item \texttt{void load\_game(const std::string\& path)} - wczytuje zapis gry z pliku podanego przez \texttt{path}
+            \item \texttt{bool set\_parameters(GameParameters parameters)} - ustawia parametry gry na podstawie podanego
+            argumentu i zwraca informację o powodzeniu metody
+            \item \texttt{bool save\_game(const std::string\& path)} - zapisuje stan gry do pliku podanego przez 
+            \texttt{path} i zwraca informację o powodzeniu metody
+            \item \texttt{void update\_dimensions()} - ustawia wymiary elementów w zależności od rozmiaru okna
         \end{itemize}
 
     \item \texttt{Board} - klasa reprezentująca planszę do gry
         \begin{itemize}
             \item \texttt{Board()} - domyślny konstruktor, ustawiający domyślne parametry
-            \item \texttt{Board(uint8\_t board\_rows, uint8\_t board\_columns)} - konstruktor parametryczny ustawia rozmiar planszy na \texttt{board\_rows} $\times$ \texttt{board\_rows}
+            \item \texttt{Board(uint8\_t board\_rows, uint8\_t board\_columns)} - konstruktor parametryczny ustawia 
+            rozmiar planszy na \texttt{board\_rows} $\times$ \texttt{board\_rows}
             \item \texttt{uint16\_t get\_columns()} - zwraca liczbę kolumn planszy
             \item \texttt{uint16\_t get\_rows()} - zwraca liczbę wierszy planszy
             \item \texttt{uint16\_t get\_win\_condition()} - zwraca warunek zwycięstwa
             \item \texttt{void set\_win\_condition()} - ustawia warunek zwycięstwa
             \item \texttt{void set\_dimensions(uint16\_t rows, uint16\_t columns)} - ustawia wymiary planszy
             \item \texttt{uint8\_t check\_victory()} - sprawdza czy któryś z graczy wygrał
+            \item \texttt{void clear()} - czyści planszę
+            \item \texttt{std::vector<uint8\_t>::iterator operator[] (int index)} - zwraca iterator do początku podanego
+            wiersza. Metoda ta umożliwia odnoszenie się do elementów planszy dwoma indeksami 
+            np. \texttt{board[row][col]}
         \end{itemize}
 \end{itemize}
      
@@ -173,7 +216,8 @@ W projekcie wykorzystywane są następujące pliki zasobów:
     \item \texttt{assets/} – katalog zawierający dodatkowe zasoby do gry.\\
     Struktura katalogu:
         \begin{itemize}
-            \item \texttt{logo1.txt}, \texttt{logo2.txt} – pliki zawierające tekstowe logo pojawiające się na ekranie startowym.
+            \item \texttt{logo1.txt}, \texttt{logo2.txt} – pliki zawierające tekstowe logo pojawiające się na ekranie 
+            startowym.
         \end{itemize}
     \end{itemize}
 
@@ -183,7 +227,8 @@ W projekcie wykorzystywane są następujące pliki zasobów:
 
 \subsection{Format zapisu}
 
-Stan gry jest zapisywany do pliku w formie binarnej. Poniżej podane są po kolei bajty oznaczające konkretne parametry gry oraz ich rozmiary w pliku
+Stan gry jest zapisywany do pliku w formie binarnej. Poniżej podane są po kolei bajty oznaczające konkretne parametry 
+gry oraz ich rozmiary w pliku
 
 \begin{enumerate}
 \item Liczba graczy - 1 bajt (unsigned)
@@ -194,10 +239,10 @@ Stan gry jest zapisywany do pliku w formie binarnej. Poniżej podane są po kole
     \item liczba kolumn w planszy - 2 bajty (unsigned)
   \end{enumerate}
 \item Warunek zwycięstwa - 2 bajty (unsigned)
-\item zawartość planszy - każdej komórce odpowiada jeden bajt, więc rozmiar tej sekcji w bajtach, to liczba kolumn $\times$ liczba wierszy (unsigned)
+\item zawartość planszy - każdej komórce odpowiada jeden bajt, więc rozmiar tej sekcji w bajtach, to liczba kolumn 
+$\times$ liczba wierszy (unsigned)
 \end{enumerate}
 
 Parametry większe niż jeden bajt są zapisywane w formacie little endian (najmniej znaczący bajt na początku).
 
 \end{document}
-

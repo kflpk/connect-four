@@ -399,7 +399,7 @@ bool Game::save_game(const std::string& path) {
     // ^ I tried using shared_ptr and pass data.get() to write but it kept on segfaulting
 
 
-    data[0] = 1;
+    data[0] = 2;
     data[1] = current_player;
     data[2] = board.get_rows();
     data[3] = board.get_rows() >> 8;
