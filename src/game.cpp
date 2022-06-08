@@ -85,9 +85,11 @@ void Game::draw_board() {
 
 
     uint16_t board_win_width;
-    uint16_t board_win_height;
+    // uint16_t board_win_height;
 
-    getmaxyx(board_win, board_win_height, board_win_width);
+    // getmaxyx(board_win, board_win_height, board_win_width);
+    board_win_width = getmaxx(board_win);
+    
 
     uint32_t board_width  = board.get_columns() * (cell_width + border_width) + border_width;
     // uint32_t board_height = board.get_rows() * (cell_height + 1);
@@ -144,9 +146,10 @@ void Game::draw_indicators() {
     wborder(indicators_win, 0, 0, 0, 0, 0, 0, ACS_LTEE, ACS_RTEE);
 
     uint16_t indicators_win_width;
-    uint16_t indicators_win_height;
+    // uint16_t indicators_win_height;
 
-    getmaxyx(indicators_win, indicators_win_height, indicators_win_width);
+    // getmaxyx(indicators_win, indicators_win_height, indicators_win_width);
+    indicators_win_width = getmaxx(indicators_win);
 
     uint32_t board_width  = board.get_columns() * (cell_width + border_width) + border_width;
 
@@ -430,7 +433,7 @@ bool Game::save_game(const std::string& path) {
             file.write(&data[0], file_size);
         }
     }
-    catch(std::exception ex) {
+    catch(std::exception& ex) {
         std::cout << ex.what();
     }
 
@@ -460,7 +463,7 @@ bool Game::load_game(const std::string& path) {
 
     try {
         file.read(&board_content[0], cols * rows);
-    } catch(std::exception ex) {
+    } catch(std::exception& ex) {
         std::cout << ex.what();
     }
     
