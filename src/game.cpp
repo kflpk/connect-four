@@ -160,6 +160,12 @@ void Game::draw_indicators() {
         wprintw(indicators_win, "[%c]", col == focused_column ? 'v' : ' ');
     }
 
+    // Draw hints
+    mvwprintw(indicators_win, 1, 3, "Change column using arrows");
+    mvwprintw(indicators_win, 2, 3, "Press 'p' to pause");
+
+
+    // Current player indicator
     mvwprintw(indicators_win, _ind_ver_off + 2, (indicators_win_width - 22) / 2, "Current player: ");
 
     wattroff(indicators_win, COLOR_PAIR(PAIR_DEFAULT));
