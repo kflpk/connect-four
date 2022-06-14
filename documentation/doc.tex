@@ -223,6 +223,24 @@ W projekcie wykorzystywane są następujące pliki zasobów:
 
 \section{Dalszy rozwój i ulepszenia}
 
+\begin{itemize}
+    \item Mimo, że gra oryginalnie gra została zaprojektowana dla dwóch graczy, to nie ma żadnych powodów dla których
+    w grę nie mogłaby grać większa liczba graczy. Zapis gry już przechowuje liczbę graczy, więc implementacja
+    funkcji wielu graczy sprowadza się do niewielkich zmian w klasie \texttt{Game} i \texttt{Board} oraz dodanie
+    opcji do menu ustawień.
+    \item Aktualnie gra nie posiada żadnej możliwości gry dla jednego gracza. Możliwa jest implementacja sztucznej
+    inteligencji z różnymi poziomami trudności.
+    \item Możliwa jest implementacja logowania ruchów i wyników graczy.
+    \item Przy większym nakładzie pracy można zaimplementować funkcjonalność multi-player poprzez protokoły sieciowe,
+    jednak wymagałoby to znacznej przebudowy programu.
+    \item Gra w obecnym stanie działa w terminalu. Z tego powodu nie jest możliwa obsługa sytuacji w której gracz
+    zamyka okno terminala poprzez zastosowanie sygnałów. Problem ten mógłby zostać rozwiązany poprzez napisanie
+    faktycznego interfejsu okienkowego (np. w Qt lub GTK), dzięki czemu można by obsługiwać zamknięcie okna.
+    \item Alternatywnym rozwiązaniem tego problemu jest zapisywanie gry po każdym ruchu do tymczasowego pliku z zapisem.
+    Jeśli program zakończyłby swoje działanie bez problemu, plik mógłby być usunięty. W przypadku wysłania sygnału 
+    \texttt{SIGTERM} lub \texttt{SIGKILL}, plik z zapisem pozostawałby w folderze.
+\end{itemize}
+
 \section{Inne}
 
 \subsection{Format zapisu}
