@@ -19,7 +19,7 @@ void wfill(WINDOW* win, char c) {
 }
 
 std::vector<std::string> word_wrap(std::string source, int line_length) {
-    std::vector<std::string> outputStrings;
+    std::vector<std::string> lines;
     std::istringstream iss(source);
 
     std::string line;
@@ -31,7 +31,7 @@ std::vector<std::string> word_wrap(std::string source, int line_length) {
 
         if (line.length() + word.length() > (size_t)line_length)
         {
-            outputStrings.push_back(line);
+            lines.push_back(line);
             line.clear();
         }
         line += word + " ";
@@ -40,10 +40,10 @@ std::vector<std::string> word_wrap(std::string source, int line_length) {
 
     if (!line.empty())
     {
-        outputStrings.push_back(line);
+        lines.push_back(line);
     }
 
-    return outputStrings;
+    return lines;
 }
 
 void warning(std::string warning_content) {

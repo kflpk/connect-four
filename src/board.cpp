@@ -8,7 +8,7 @@
 
 
 Board::Board(uint8_t board_rows, uint8_t board_columns)  {
-    this->victory_condition = 4;
+    victory_condition = 4;
     rows = board_rows;
     columns = board_columns;
     content.resize(rows * columns);
@@ -18,13 +18,13 @@ Board::Board(uint8_t board_rows, uint8_t board_columns)  {
 }
 
 Board::Board() {
-    this->victory_condition = 4;
-    this->rows = 5;
-    this->columns = 7;
-    this->content.resize(rows * columns);
+    victory_condition = 4;
+    rows = 5;
+    columns = 7;
+    content.resize(rows * columns);
  
     for(int i = 0; i < rows * columns; i++)
-        this->content[i] = 0;
+        content[i] = 0;
 }
 
 // getters
@@ -43,11 +43,11 @@ void Board::set_dimensions(uint16_t r, uint16_t c) {
 }
 
 void Board::set_victory_condition(uint16_t condition) {
-    this->victory_condition = condition;
+    victory_condition = condition;
 }
 
 bool Board::drop_chip(uint16_t col, uint8_t player) {
-    if(col > this->columns)
+    if(col > columns)
         return false;
 
     for(uint16_t row = rows - 1; row < rows; row--) {
@@ -109,8 +109,8 @@ uint8_t Board::check_victory() {
         return 2;
 
     // Horizontal line detection
-    for(uint16_t row = 0; row < this->rows; row++) {
-        for(uint16_t col = 0; col < this->columns; col++) {
+    for(uint16_t row = 0; row < rows; row++) {
+        for(uint16_t col = 0; col < columns; col++) {
             if(prev == (*this)[row][col] && (*this)[row][col] != 0)  {
                 streak++;
             }
@@ -128,8 +128,8 @@ uint8_t Board::check_victory() {
     }
 
     // Vertical line detection
-    for(uint16_t col = 0; col < this->columns; col++) {
-        for(uint16_t row = 0; row < this->rows; row++) {
+    for(uint16_t col = 0; col < columns; col++) {
+        for(uint16_t row = 0; row < rows; row++) {
             if(prev == (*this)[row][col] && (*this)[row][col] != 0)  {
                 streak++;
             }
@@ -150,18 +150,18 @@ uint8_t Board::check_victory() {
 }
 
 // A function for debbuging purposes printing board content in plain text to stdout
-void Board::printbrd() {
-    for(uint16_t i = 0; i < rows; i++) {
-        for(uint16_t j = 0; j < columns; j++) {
-            if((*this)[i][j])
-                std::cout << (int)(*this)[i][j] << " ";
-            else
-                std::cout << "  ";
-        }
-        std::cout << std::endl;
-    }
-}
+// void Board::printbrd() {
+//     for(uint16_t i = 0; i < rows; i++) {
+//         for(uint16_t j = 0; j < columns; j++) {
+//             if((*this)[i][j])
+//                 std::cout << (int)(*this)[i][j] << " ";
+//             else
+//                 std::cout << "  ";
+//         }
+//         std::cout << std::endl;
+//     }
+// }
 
 std::vector<uint8_t>::iterator Board::operator[] (int index) {
-    return this->content.begin() + index * this->columns;
+    return content.begin() + index * columns;
 }
