@@ -19,7 +19,7 @@ std::vector<std::string> word_wrap(std::string source, int line_length);
 struct GameParameters {
     uint16_t rows = 5;
     uint16_t columns = 7;
-    uint16_t victory_condition = 4;
+    uint16_t win_condition = 4;
     
     uint8_t player1_color;
     uint8_t player2_color;

@@ -12,7 +12,7 @@ class Board {
     private:
         uint16_t rows;
         uint16_t columns;
-        uint16_t victory_condition;
+        uint16_t win_condition;
         std::vector<uint8_t> content;
         bool diagonal_check(uint8_t player);
 
@@ -28,7 +28,7 @@ class Board {
 
         // Setters
         void set_dimensions(uint16_t rows, uint16_t columns);
-        void set_victory_condition(uint16_t condition);
+        void set_win_condition(uint16_t condition);
         std::vector<uint8_t>::iterator operator[] (int index);
 
         // Other functions

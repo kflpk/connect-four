@@ -8,6 +8,5 @@ add_executable(${PROJECT_NAME} src/main.cpp src/board.cpp src/extras.cpp src/gam
 
 target_link_libraries(${PROJECT_NAME} ncurses)
 target_compile_options(${PROJECT_NAME} PRIVATE ${WARNINGS})
-# TODO: Fix warnings not showing for compiling object files
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)

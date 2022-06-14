@@ -23,7 +23,7 @@ void Menu::draw_logo() {
     if(logo_file.is_open()) { //print "Connect" on screen
         while(!logo_file.eof()) {
             std::getline(logo_file, buffer);
-            wmove(title, logo_offset.y + row, logo_offset.x + col);
+            wmove(title, logo_ver_offset + row, logo_hor_offset + col);
 
             wattron(title, COLOR_PAIR(PAIR_BLUE));
             wprintw(title ,"%s", buffer.c_str());
@@ -43,7 +43,7 @@ void Menu::draw_logo() {
         while(!logo_file.eof()) {
             std::getline(logo_file, buffer);
 
-            wmove(title, logo_offset.y + row, logo_offset.x + col);
+            wmove(title, logo_ver_offset + row, logo_hor_offset + col);
             wattron(title, COLOR_PAIR(PAIR_ORANGE));
             wprintw(title, "%s", buffer.c_str());
             wattroff(title, COLOR_PAIR(PAIR_ORANGE));
@@ -87,7 +87,7 @@ void Menu::draw_content() {
                         wprintw(content, "%02d", temp_perameters.columns);
                         break;
                     case setting_win:
-                        wprintw(content, "%02d", temp_perameters.victory_condition);
+                        wprintw(content, "%02d", temp_perameters.win_condition);
                         break;
                     default:
                         break;
@@ -108,10 +108,10 @@ void Menu::draw_content() {
 
 void Menu::set_parameters() {
     getmaxyx(stdscr, height, width);
-    logo_offset.y = 2;
+    logo_ver_offset = 2;
     logo_width = 64;
     logo_height = 5;
-    logo_offset.x = (width - logo_width)/2;
+    logo_hor_offset = (width - logo_width)/2;
 
 
     title = newwin(logo_height + 4, width, 0, 0); // creates new window for title
@@ -195,9 +195,9 @@ void Menu::setting_increment() {
             break;
 
         case setting_win:
-            if(temp_perameters.victory_condition < 100
-               && temp_perameters.victory_condition < std::max(temp_perameters.columns, temp_perameters.rows))
-                temp_perameters.victory_condition++;
+            if(temp_perameters.win_condition < 100
+               && temp_perameters.win_condition < std::max(temp_perameters.columns, temp_perameters.rows))
+                temp_perameters.win_condition++;
             break;
         
         default: 
@@ -218,8 +218,8 @@ void Menu::setting_decrement() {
             break;
 
         case setting_win:
-            if(temp_perameters.victory_condition > 2)
-                temp_perameters.victory_condition--;
+            if(temp_perameters.win_condition > 2)
+                temp_perameters.win_condition--;
             break;
         
         default: 
@@ -227,9 +227,9 @@ void Menu::setting_decrement() {
     }
 
     // Prevent the user from setting both dimensions lower than win condition
-    if(temp_perameters.victory_condition > 
+    if(temp_perameters.win_condition > 
     std::max(temp_perameters.columns, temp_perameters.rows)) {
-        temp_perameters.victory_condition = std::max(temp_perameters.columns, temp_perameters.rows);
+        temp_perameters.win_condition = std::max(temp_perameters.columns, temp_perameters.rows);
     }
 
 }

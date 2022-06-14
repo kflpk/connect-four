@@ -49,8 +49,8 @@ bool Game::set_parameters(GameParameters parameters) {
         if(parameters.rows != 0 && parameters.columns != 0) 
             board.set_dimensions(parameters.rows, parameters.columns);
 
-        if(parameters.victory_condition != 0)
-            board.set_victory_condition(parameters.victory_condition);
+        if(parameters.win_condition != 0)
+            board.set_win_condition(parameters.win_condition);
     }
 
     player_colors.player1 = parameters.player1_color;
@@ -240,7 +240,7 @@ bool Game::validate_size() {
     return true;
 }
 
-void Game::display_victory_screen(uint8_t player) {
+void Game::display_win_screen(uint8_t player) {
     //cleanup();
     uint32_t win_width = 25;
     uint32_t win_height = 8;
@@ -393,7 +393,7 @@ void Game::Start() {
 
         if(uint8_t winner = board.check_victory()) {
             draw_board();
-            display_victory_screen(winner);
+            display_win_screen(winner);
             break;
         }
     }
@@ -457,7 +457,7 @@ bool Game::load_game(const std::string& path) {
     uint8_t win_condition = preambule[6] | (preambule[7] << 8);
 
     board.set_dimensions(rows, cols);
-    board.set_victory_condition(win_condition);
+    board.set_win_condition(win_condition);
 
     std::vector<char> board_content(rows * cols);
 

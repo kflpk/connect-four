@@ -8,7 +8,7 @@
 
 
 Board::Board(uint8_t board_rows, uint8_t board_columns)  {
-    victory_condition = 4;
+    win_condition = 4;
     rows = board_rows;
     columns = board_columns;
     content.resize(rows * columns);
@@ -18,7 +18,7 @@ Board::Board(uint8_t board_rows, uint8_t board_columns)  {
 }
 
 Board::Board() {
-    victory_condition = 4;
+    win_condition = 4;
     rows = 5;
     columns = 7;
     content.resize(rows * columns);
@@ -30,7 +30,7 @@ Board::Board() {
 // getters
 uint16_t Board::get_columns(void) { return columns; }
 uint16_t Board::get_rows(void) { return rows; }
-uint16_t Board::get_win_condition() { return victory_condition; }
+uint16_t Board::get_win_condition() { return win_condition; }
 
 // setters
 void Board::set_dimensions(uint16_t r, uint16_t c) {
@@ -42,8 +42,8 @@ void Board::set_dimensions(uint16_t r, uint16_t c) {
     (*this).clear();
 }
 
-void Board::set_victory_condition(uint16_t condition) {
-    victory_condition = condition;
+void Board::set_win_condition(uint16_t condition) {
+    win_condition = condition;
 }
 
 bool Board::drop_chip(uint16_t col, uint8_t player) {
@@ -71,26 +71,26 @@ bool Board::diagonal_check(uint8_t player) {
     uint16_t streak = 0;
 
     // top-left to bottom-right diagonal detection
-    for(uint16_t row_start = 0; row_start <= rows - victory_condition; row_start++) {
-        for(uint16_t col_start = 0; col_start <= columns - victory_condition; col_start++) {
+    for(uint16_t row_start = 0; row_start <= rows - win_condition; row_start++) {
+        for(uint16_t col_start = 0; col_start <= columns - win_condition; col_start++) {
             streak = 0;
-            for(uint16_t diag = 0; diag < victory_condition; diag++) {
+            for(uint16_t diag = 0; diag < win_condition; diag++) {
                 if( (*this)[row_start + diag][col_start + diag] == player )
                     streak++;
-                if(streak == victory_condition)
+                if(streak == win_condition)
                     return (*this)[row_start][col_start];
             }
         }
     }
 
     // top-right to bottom-left diagonal detection
-    for(uint16_t row_start = 0; row_start <= rows - victory_condition; row_start++) {
-        for(uint16_t col_start = columns - 1; col_start >= victory_condition - 1; col_start--) {
+    for(uint16_t row_start = 0; row_start <= rows - win_condition; row_start++) {
+        for(uint16_t col_start = columns - 1; col_start >= win_condition - 1; col_start--) {
             streak = 0;
-            for(uint16_t diag = 0; diag < victory_condition; diag++) {
+            for(uint16_t diag = 0; diag < win_condition; diag++) {
                 if( (*this)[row_start + diag][col_start - diag] == player )
                     streak++;
-                if(streak == victory_condition)
+                if(streak == win_condition)
                     return (*this)[row_start][col_start];
             }
         }
@@ -119,7 +119,7 @@ uint8_t Board::check_victory() {
                 streak = 1;
             }
 
-            if(streak == victory_condition) {
+            if(streak == win_condition) {
                 return prev;
             }
         }
@@ -138,7 +138,7 @@ uint8_t Board::check_victory() {
                 streak = 1;
             }
 
-            if(streak == victory_condition)
+            if(streak == win_condition)
                 return prev;
 
         }

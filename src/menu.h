@@ -38,12 +38,9 @@ class Menu {
         GameParameters parameters;                      // stores game parameters to be passed to a Game instance
         GameParameters temp_perameters;                 // temporarily stores game parameters in setting menu
 
-        int width, height;            // main window dimensions
-        struct {
-            uint16_t x;
-            uint16_t y;
-        } logo_offset;                // logo offset
-        int logo_width, logo_height;  // logo dimensions
+        int width, height;                              // main window dimensions
+        uint32_t logo_ver_offset, logo_hor_offset;      // logo offsets
+        int logo_width, logo_height;                    // logo dimensions
 
         WINDOW* title;   // window for the program title
         WINDOW* content; // window for the main menu content (buttons)
