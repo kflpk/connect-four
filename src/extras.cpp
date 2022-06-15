@@ -47,7 +47,6 @@ std::vector<std::string> word_wrap(std::string source, int line_length) {
 }
 
 void warning(std::string warning_content) {
-    // return;
     WINDOW* warning_win;
     std::vector<std::string> lines;
 

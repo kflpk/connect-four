@@ -50,25 +50,27 @@ class Game {
         // | Function declarations |
         // =========================
         
-        // Function for drawing
-        void draw_frame();
-        void draw_board();
-        void draw_tile(uint16_t row, uint16_t col, uint16_t off_y, uint16_t off_x);
-        void draw_indicators();
-        void draw_pause();
-        void display_win_screen(uint8_t player);
+        // Functions for drawing
+        void draw_frame();                              // Draws the frame of the window
+        void draw_board();                              // Draws the game board
+        void draw_tile(uint16_t row, uint16_t col,      // Draws a tile according to its position in board
+                       uint16_t off_y, uint16_t off_x); // and the offset passed 
+        void draw_indicators();                         // Draws the column indicators and hints on upper window
+        void draw_pause();                              // Draws the pause menu
+        void display_win_screen(uint8_t player);        // Displays the victorious player
 
         // Functions for navigation
-        void next_column();
-        void prev_column();
-        void next_option();
-        void prev_option();
-        void key_handler();
+        void next_column();                             // Switches the column to the right
+        void prev_column();                             // Switches the column to the left
+        void next_option();                             // Switches to the next option in pause menu
+        void prev_option();                             // Switches to the previous option in pause menu
+        void key_handler();                             /* Reads the key from keyboard and calls other functions
+                                                           according to the key pressed */
         
         // Other functions
-        void switch_player();
-        bool load_game(const std::string& path);
-        bool validate_size();
+        void switch_player();                           // Switches the player 
+        bool load_game(const std::string& path);        // Loads the game from file passed as argument
+        bool validate_size();                           // Checks if the window is big enough to draw the board
 
     public:
         Game();

@@ -71,9 +71,9 @@ Po włączeniu programu wyświetla się menu główne z następującymi opcjami:
 \end{itemize}
 
 Nawigacja pomiędzy opcjami odbywa się za pomocą strzałek w górę i w dół. Wciśnięcie klawisza Enter spowoduje wykonanie 
-akcji związanej z wybranym elementem menu
+akcji związanej z wybranym elementem menu.
 
-Wybranie "Load game" wczyta stan gry z pliku z zapisem \texttt{save.bin}. 
+Wybranie "Load game" wczyta stan gry z pliku \texttt{save.bin} zawirającym zapis gry. 
 W przypadku błędu w odczycie pliku, wyświetli się komunikat powiadamiający o wystąpieniu błędu.
 
 \subsection*{Ustawienia}
@@ -91,8 +91,8 @@ bez zapisywania zmienionych ustawień.
 
 \subsection*{Ekran gry}
 
-Po rozpoczęciu gry, na ekranie wyświetli okno zostanie podzielone na dwie części. Górna część zawiera elementy
-interfejsu informujące o aktualnym graczu i wybranej kolumnie, a dolna - planszę do gry
+Po rozpoczęciu gry, okno zostanie podzielone na dwie części. Górna część zawiera elementy
+interfejsu informujące o aktualnym graczu i wybranej kolumnie, a dolna - planszę do gry.
 Zmiana wybranej kolumny odbywa się przy pomocy strzałek w lewo i w prawo. Po wciśnięciu klawisza Enter, do wybranej
 kolumny zostanie wrzucony żetonu koloru odpowiadającego aktualnemu graczowi. Po wrzuceniu żetonu następuje tura
 kolejnego gracza. Gracz który jako pierwszy ułoży odpowiednią liczbę żetonów w prostej linii lub po przekątnej wygrywa.
@@ -118,7 +118,7 @@ Wciśnięcie klawisza \texttt{p} podczas gry spowoduje pauzę w grze i wyświetl
 \section{Kompilacja}
 
 Program został napisany na systemy operacyjne z rodziny Linux i nie jest możliwe skompilowanie go na system Windows,
-ponieważ on Unixowegy systemych sygnałów \texttt{SIGTERM} i \texttt{SIGWINCH}. Prawdopodobnie jest możliwa kompilacja
+ponieważ on Unixowego systemych sygnałów (\texttt{SIGTERM} i \texttt{SIGWINCH}). Prawdopodobnie jest możliwa kompilacja
 programu na systemy z rodziny BSD, jednak program nie był na nich testowany.
 
 Program można skompilować na dwa sposoby:
@@ -143,15 +143,14 @@ do głównego katalogu, to program wykonywalny powinien z niego wywoływany.
 
 \section{Pliki źródłowe}
 
-W tym punkcie należy opisać wszystkie pliki źródłowe (\texttt{.cpp}, \texttt{.h}) w projekcie. Należy podać nazwę 
-każdego pliku oraz informację o tym co się w nim znajduje. Na przykład:
 Projekt składa się z następujących plików źródłowych:
     \begin{itemize}
     \item \texttt{board.h}, \texttt{board.cpp} – deklaracja oraz implementacja klasy Board,
     \item \texttt{game.h}, \texttt{game.cpp} – deklaracja oraz implementacja klasy Game,
     \item \texttt{menu.h}, \texttt{menu.cpp} – deklaracja oraz implementacja klasy Menu.
-    \item \texttt{extras.h}, \texttt{extras.cpp} – deklaracja oraz implementacja funkcji pomocniczych.
-    \item \texttt{color.h} – definicje procesora nazw kolorów do użycia w funkcjach biblioteki ncurses.
+    \item \texttt{extras.h}, \texttt{extras.cpp} – deklaracja oraz implementacja funkcji pomocniczych oraz struktur 
+    i enumów używanych przez wiele klas.
+    \item \texttt{color.h} – definicje preprocesora nazw kolorów do użycia w funkcjach biblioteki ncurses.
     \item \texttt{main.cpp} – główny plik z implementacją funkcji main.
     \end{itemize}
 
@@ -221,7 +220,7 @@ W projekcie wykorzystywane są następujące pliki zasobów:
 \begin{itemize}
     \item Mimo, że gra oryginalnie gra została zaprojektowana dla dwóch graczy, to nie ma żadnych powodów dla których
     w grę nie mogłaby grać większa liczba graczy. Zapis gry już przechowuje liczbę graczy, więc implementacja
-    funkcji wielu graczy sprowadza się do niewielkich zmian w klasie \texttt{Game} i \texttt{Board} oraz dodanie
+    takiej funkcjonalności sprowadza się do niewielkich zmian w klasie \texttt{Game} i \texttt{Board} oraz dodanie
     opcji do menu ustawień.
     \item Aktualnie gra nie posiada żadnej możliwości gry dla jednego gracza. Możliwa jest implementacja sztucznej
     inteligencji z różnymi poziomami trudności.
